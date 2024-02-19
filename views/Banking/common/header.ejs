@@ -143,11 +143,15 @@
                 <span>상품가입</span></a>
         </li>
 
-
+    <% if(select === "loan"){ %>
+        <li class="nav-item active">
+            <% }else{ %>
         <li class="nav-item" onclick="active">
-            <a class="nav-link" href="#">
-                <i class="fas fa-fw fa-money-bill-wave"></i>
+            <% } %>
 
+            <a class="nav-link" href="/bank/loan">
+
+                <i class="fas fa-fw fa-money-bill-wave"></i>
                 <span>대출</span></a>
         </li>
 
