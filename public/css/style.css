@@ -175,14 +175,14 @@ h6 {
   position: fixed;
   visibility: hidden;
   opacity: 0;
-  right: 15px;
-  bottom: 15px;
+  right: 11px;
+  bottom: 11px;
   z-index: 996;
-  background: rgb(255,122,0);
-  width: 40px;
-  height: 40px;
-  border-radius: 50px;
-  transition: all 0.4s;
+  background: rgb(128, 69, 136);
+  width: 37px;
+  height: 37px;
+  border-radius: 20px;
+  transition: all 0.3s;
 }
 
 .back-to-top i {
@@ -192,7 +192,7 @@ h6 {
 }
 
 .back-to-top:hover {
-  background: rgb(255,122,0);
+  background: rgb(128, 69, 136);
   color: #ffffff44
 ;
 }
@@ -209,12 +209,12 @@ h6 {
   transition: all 0.5s;
   z-index: 997;
   padding: 15px 0;
-  background-color: #e74a3b;
+  background-color: #b937a4;
 }
 
 #header.header-scrolled,
 #header.header-inner-pages {
-  background: #e74a3b;
+  background: #b937a4;
 }
 
 #header .logo {

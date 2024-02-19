@@ -524,7 +524,7 @@
 		
 		/**
 		 * Get an array of the TR nodes that are used in the table's body. Note that you will
-		 * typically want to use the '$' API method in preference to this as it is more
+		 * typically want to use the '₩' API method in preference to this as it is more
 		 * flexible.
 		 *  @param {int} [iRow] Optional row index for the TR element you want
 		 *  @returns {array|node} If iRow is undefined, returns an array of all TR elements
@@ -1347,7 +1347,7 @@
 	var _re_date = /^\d{2,4}[\.\/\-]\d{1,2}[\.\/\-]\d{1,2}([T ]{1}\d{1,2}[:\.]\d{2}([\.:]\d{2})?)?$/;
 	
 	// Escape regular expression special characters
-	var _re_escape_regex = new RegExp( '(\\' + [ '/', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}', '\\', '$', '^', '-' ].join('|\\') + ')', 'g' );
+	var _re_escape_regex = new RegExp( '(\\' + [ '/', '.', '*', '+', '?', '|', '(', ')', '[', ']', '{', '}', '\\', '₩', '^', '-' ].join('|\\') + ')', 'g' );
 	
 	// http://en.wikipedia.org/wiki/Foreign_exchange_market
 	// - \u20BD - Russian ruble.
@@ -14278,7 +14278,7 @@
 			 *        }
 			 *
 			 *        // Check prefixed by currency
-			 *        if ( data.charAt(0) == '$' || data.charAt(0) == '&pound;' ) {
+			 *        if ( data.charAt(0) == '₩' || data.charAt(0) == '&pound;' ) {
 			 *          return 'currency';
 			 *        }
 			 *        return null;
@@ -15022,7 +15022,7 @@
 	 *   // Column definition using the number renderer
 	 *   {
 	 *     data: "salary",
-	 *     render: $.fn.dataTable.render.number( '\'', '.', 0, '$' )
+	 *     render: $.fn.dataTable.render.number( '\'', '.', 0, '₩' )
 	 *   }
 	 *
 	 * @namespace

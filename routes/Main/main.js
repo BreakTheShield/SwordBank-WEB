@@ -28,7 +28,7 @@ router.get('/', function (req, res, next) {
                 headers: {"authorization": "1 " + cookie}
             }).then((data) => {
                 const result = decryptRequest(data.data);
-                imageToBase64("https://www.sukybank.com/img/info.png").then(response => {
+                imageToBase64("http://127.0.0.1:3001/img/info.png").then(response => {
                     html = `<img src="data:image/png;base64,${response}"/>`
 
                     return res.render("temp/index", {
@@ -51,7 +51,7 @@ router.get('/', function (req, res, next) {
                 })
             });
         } else {
-            imageToBase64("https://www.sukybank.com/img/info.png").then(response => {
+            imageToBase64("http://127.0.0.1:3001/img/info.png").then(response => {
                 html = `<img src="data:image/png;base64,${response}"/>`
 
                 return res.render("temp/index", {select: "home", select2: "info", results: results, html: html})

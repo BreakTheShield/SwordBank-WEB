@@ -11,10 +11,12 @@ const profile = async (cookie) => {
     })
 
     const left = data2.data.membership
-    if(left === "FRIEND") {
-        data2.data.rest = "$ 10000"
-    } else if (left === "PREMIUM") {
-        data2.data.rest = "$ 1000000"
+    if(left === "SILVER") {
+        data2.data.rest = "₩ 1,000,000"
+    } else if (left === "GOLD") {
+        data2.data.rest = "₩ 10,000,000"
+    } else if (left === "PLATINUM") {
+        data2.data.rest = "₩ 100,000,000"
     } else if (left === "ADMIN") {
         data2.data.rest = "무제한"
     } else {
