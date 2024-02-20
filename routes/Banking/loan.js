@@ -47,14 +47,14 @@ router.get('/', checkCookie, function (req, res, next) {
             <form id="get_debt" action="/bank/loan/get_debt" method="POST" name="get_debt">
                 <input type="text" class="form-control form-control-user" id="loan_mount" name="loan_mount" placeholder="대출 금액"><br>
                 <input type="hidden" name="user_name" value="${pending.data.username}"/>
-                <a onclick="document.getElementById('get_debt').submit()" class="btn btn-user btn-block" id="submitbutton" style="background-color:#b937a4 !important; color:white !important;">
+            </form>
+            <a onclick="document.getElementById('get_debt').submit()" class="btn btn-user btn-block" id="submitbutton" style="background-color:#b937a4 !important; color:white !important;">
                     대출
                 </a>
-            </form>
             `;
             
            
-
+            console.log('입력name', pending.data.username);
             return res.render("Banking/loan", { html: html_data, pending: pending, select: "loan" });
         }).catch(function (err) {
             
@@ -66,6 +66,8 @@ router.get('/', checkCookie, function (req, res, next) {
 
 router.post("/get_debt", checkCookie, function (req, res, next) {
     const cookie = req.cookies.Token;
+    let temp_name = req.body.username;
+    console.log('getname=',temp_name);
     
     const username = req.body.username;
     const loan_mount1 = req.body.loan_mount;
