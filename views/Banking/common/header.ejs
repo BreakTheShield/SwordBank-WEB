@@ -210,6 +210,16 @@
                 <span>멤버십</span></a>
         </li>
 
+        <% if(select === "mydata"){ %>
+            <li class="nav-item active">
+                <% }else{ %>
+            <li class="nav-item" onclick="active">
+                <% } %>
+                <a class="nav-link" href="/bank/mydata">
+                    <i class="fas fa-fw fa-address-card"></i>
+    
+                    <span>마이데이터</span></a>
+            </li> 
 
         <!-- 접기버튼 -->
         <hr class="sidebar-divider d-none d-md-block">
