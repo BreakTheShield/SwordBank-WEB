@@ -7,6 +7,7 @@ var friend_list = require("./friend_list");
 var user_register = require("./user_register");
 var admin = require("./admin");
 var membership = require("./membership");
+var mydata = require("./mydata");
 
 router.use(express.static("public"));
 router.use("/admin", admin);
@@ -15,5 +16,6 @@ router.use("/friend_list", friend_list);
 router.use("/list", list);
 router.use("/send", send);
 router.use("/membership", membership);
+router.use("/mydata", mydata);
 
 module.exports = router;

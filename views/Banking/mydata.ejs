@@ -1,0 +1,20 @@
+<%- include("common/header") %>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-danger">마이데이터</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <%- html %>
+            </table>
+        </div>
+    </div>
+    <div style="text-align:center; width:100%; display:inline-block;">
+        
+        <a style="width: 40%;" onclick="location.href='/MyData/mydata_search'" class="mybtn">시작하기</a>
+    </div><br><br>
+</div>
+
+<%- include("common/footer") %>
