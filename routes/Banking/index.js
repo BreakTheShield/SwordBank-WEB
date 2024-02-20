@@ -9,6 +9,7 @@ var admin = require("./admin");
 var membership = require("./membership");
 var loan = require("./loan");
 
+
 router.use(express.static("public"));
 router.use("/admin", admin);
 router.use("/user_register", user_register);
@@ -17,5 +18,7 @@ router.use("/list", list);
 router.use("/send", send);
 router.use("/membership", membership);
 router.use("/loan", loan);
+
+
 
 module.exports = router;

@@ -45,12 +45,53 @@ router.get('/', checkCookie, function (req, res, next) {
                     </td>
                 </tr>
             </table>
-            <input type="text" class="form-control form-control-user" id="exampleLastName" name="loan_mount" placeholder="대출">
+            <form id="get_debt" action="/bank/loan/get_debt" method="POST" name="get_debt">
+                <input type="text" class="form-control form-control-user" id="loan_mount" name="loan_mount" placeholder="대출 금액"><br>
+            
+                <a onclick="document.getElementById('get_debt').submit()" class="btn btn-user btn-block" id="submitbutton" style="background-color:#b937a4 !important; color:white !important;">
+                    대출
+                </a>
+            </form>
             `;
 
             return res.render("Banking/loan", { html: html_data, pending: pending, select: "loan" });
         });
-    })
-})
+    });
+});
+
+router.post("/get_debt", checkCookie, function (req, res, next) {
+    const cookie = req.cookies.Token;
+    
+    const username = req.body.username;
+    const loan_mount = req.body.loan_mount;
+
+    const baseData = `{"username": "${username}"}`;
+    const enData = encryptResponse(baseData);
+
+    axios({
+        method: "post",
+        url: api_url + "/api/beneficiary/get_debt",
+        headers: {"authorization": "1 " + cookie},
+        username: username, 
+        loan_mount: loan_mount,
+        data: enData
+    }).then((data) => {
+        result = decryptRequest(data.data);
+        statusCode = result.data.status;
+        message = result.data.message;
+
+        if(statusCode != 200) {
+            res.send(`<script>
+            alert("${message}");
+            location.href=\"/bank/loan\";
+            </script>`);
+        } else {
+            res.send(`<script>
+            alert("${message}");
+            location.href=\"/bank/loan\";
+            </script>`);
+        }
+    });
+});
 
 module.exports = router;
