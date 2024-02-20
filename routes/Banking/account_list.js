@@ -26,7 +26,7 @@ router.get('/', checkCookie, function (req, res) {
 
             var html_data = "<tr>에러</tr>";
 
-            return res.render("Banking/account_list", {html: html_data, pending: profileData, select: "account_list"});
+            return res.render("Banking/account_list", {html_data: html_result, pending: profileData, select: "account_list"});
         });
     });
 });
