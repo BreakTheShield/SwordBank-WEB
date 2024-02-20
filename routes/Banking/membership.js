@@ -7,7 +7,7 @@ const checkCookie = require("../../middlewares/checkCookie");
 const IpCheck = require('../../middlewares/IpCheck');
 var userdb = require('../../middlewares/userdb');
 
-/* !!! GOLD는 가짜버튼 !!! */
+
 
 HTML_PNG = `<img src="../img/membership.png" style="width:100%;">`
 // HTML_PNG = `<img src="http://www.sukybank.com/img/membership.png">`
@@ -33,7 +33,7 @@ router.get('/', checkCookie, function (req, res) {
                     "   <tr>\n" +
                     "      <th>사용자명</th>\n" +
                     "      <th>현재 멤버십</th>\n" +
-                    "      <th colspan='2'>권한 상승</th>\n" +
+                    "      <th colspan='3'>권한 변경</th>\n" +
                     "   </tr>\n" +
                     "</thead>\n" + HTML_PNG
                 
@@ -43,12 +43,11 @@ router.get('/', checkCookie, function (req, res) {
                     `<tbody>
                         <tr>
                             <td>${x.username}</td>`
-                    if(x.membership === "PREMIUM") {
-                    html += `<td><b>${x.membership}</b></td>`} else {
-                    html += `<td>${x.membership}</td>`}
+                    html += `<td><b>${x.membership}</b></td>`
                     html += 
-                        `<td><a href="/bank/membership/downgrade?id=${x.id}" class="btn btn-danger btn-user btn-block">FRIEND로 강등</td>
-                        <td><a href="/bank/membership/upgrade?id=${x.id}" class="btn btn-info btn-user btn-block">PREMIUM으로 승급</td>
+                        `<td><a href="/bank/membership/silver?id=${x.id}" class="btn btn-secondary btn-user btn-block">SILVER</td>
+                        <td><a href="/bank/membership/gold?id=${x.id}" class="btn btn-warning btn-user btn-block">GOLD</td>
+                        <td><a href="/bank/membership/platinum?id=${x.id}" class="btn btn-info btn-user btn-block">PLATINUM</td>
                     </tr>
                 </tbody>`
 
@@ -69,10 +68,10 @@ router.get('/', checkCookie, function (req, res) {
     })
 });
 
-router.get('/downgrade', [checkCookie, IpCheck], function (req, res, next) {
+router.get('/silver', [checkCookie, IpCheck], function (req, res, next) {
     const id = req.query.id;
     userdb.query(`UPDATE users
-                  SET membership = 'FRIEND'
+                  SET membership = 'SILVER'
                   WHERE id =${id};`, function (error, results) {
         if (error) { throw error; }
     });
@@ -80,10 +79,21 @@ router.get('/downgrade', [checkCookie, IpCheck], function (req, res, next) {
     return res.redirect("/bank/membership")
 });
 
-router.get('/upgrade', [checkCookie, IpCheck], function (req, res, next) {
+router.get('/gold', [checkCookie, IpCheck], function (req, res, next) {
     const id = req.query.id;
     userdb.query(`UPDATE users
-                  SET membership = 'PREMIUM'
+                  SET membership = 'GOLD'
+                  WHERE id =${id};`, function (error, results) {
+        if (error) { throw error; }
+    });
+
+    return res.redirect("/bank/membership")
+});
+
+router.get('/platinum', [checkCookie, IpCheck], function (req, res, next) {
+    const id = req.query.id;
+    userdb.query(`UPDATE users
+                  SET membership = 'PLATINUM'
                   WHERE id =${id};`, function (error, results) {
         if (error) { throw error; }
     });
