@@ -18,6 +18,8 @@ router.get('/', checkCookie, function (req, res, next) {
             let result_data = decryptRequest(data.data);
             let statusCode = result_data.status;
             let ac = result_data.data.account_number;
+            let la = result_data.data.loan_amount;
+            console.log("loan_amount : ", la);
             if (statusCode.code == 200) {
                 var html_data = `
                 <div class="text-center">
@@ -37,6 +39,9 @@ router.get('/', checkCookie, function (req, res, next) {
                         html_data +=`<option value= ${a}>${a}</option>`;
                     })
                     html_data += `</select>
+                    <div class="form-control form-control-user mb-3" role="alert">
+                        대출 잔액 : ${la} 원
+                    </div>
                     <input type="text" class="form-control form-control-user mb-3" id="repayment_amount" name="repayment_amount" placeholder="상환 금액" style="width : 100%;">
                 </form>  
                 <a onclick="document.getElementById('loan_repayment_form').submit()" class="btn btn-user btn-block" id="submitbutton" style="background-color:#b937a4 !important; color:white !important;">
