@@ -16,43 +16,39 @@ router.get('/', checkCookie, function (req, res, next) {
             data: {username: pending.data.username}
         }).then((data) => {
             let result_data = decryptRequest(data.data);
+            let statusCode = result_data.status;
             let ac = result_data.data.account_number;
-            console.log("account : ",ac);
-            if (Object.keys(result_data).length > 0) {
-            var html_data = `
-            <div class="text-center">
-                <h4 class="h4 text-gray-900 mb-4">대출 현황 및 상환</h4>
-            </div>
-            <div class="text-center">
-                <a style="color: red;">
-                대출 상환은 기존 계좌에서 출금하는 형식으로 진행됩니다.<br>
-                대출 취소는 대출받은 계좌에 전액이 있어야 가능합니다.
-                </a>
-            </div>
-            <form id="loan_repayment_form" action="/bank/loan/repayment" method="POST">
-                <div class="mb-3">
-                    <select class="form-control form-control-user" aria-label="Large select example" name="selected_account">
-                    <option selected>계좌를 선택해 주세요.</option>
-                    `
-
+            if (statusCode.code == 200) {
+                var html_data = `
+                <div class="text-center">
+                    <h4 class="h4 text-gray-900 mb-4">대출 현황 및 상환</h4>
+                </div>
+                <div class="text-center">
+                    <a style="color: red;">
+                    대출 상환은 기존 계좌에서 출금하는 형식으로 진행됩니다.<br>
+                    대출 취소는 대출받은 계좌에 전액이 있어야 가능합니다.
+                    </a>
+                </div>
+                <form id="loan_repayment_form" action="/bank/loan/repayment" method="POST">
+                    <div class="mb-3">
+                        <select class="form-control form-control-user" aria-label="Large select example" name="selected_account" style="width: 40%;">
+                        <option selected>계좌를 선택해 주세요.</option>
+                    `;
                     ac.forEach(function (a) {
                         html_data +=`<option value= ${a}>${a}</option>`;
                     })
                     html_data += `</select>
-                </div>
-                <div class="mb-3">
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" name="amount" placeholder="금액">
+                    <input type="text" class="form-control form-control-user" id="exampleLastName" name="amount" placeholder="상환 금액" style="width : 40%;">
                 </div>
             </form>  
             <a onclick="document.getElementById('send').submit()" class="btn btn-user btn-block" id="submitbutton" style="background-color:#b937a4 !important; color:white !important;">
-            송금
+            대출 상환
             </a>          
             `;
 
             
-
             return res.render("Banking/loan", { html: html_data, pending: pending, select: "loan" });
-        } else {
+        } else if (statusCode.code == 400) {
             var html_data =  `
             <div class="text-center">
                 <h4 class="h4 text-gray-900 mb-4">Security 우대대출</h4>
