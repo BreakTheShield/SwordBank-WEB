@@ -152,6 +152,21 @@
                 <span>인증센터</span></a>
         </li> -->
 
+        <!--이조 계좌목록 추가 s-->
+        <% if(select === "account_list"){ %>
+            <li class="nav-item active">
+                <% }else{ %>
+            <li class="nav-item" onclick="active">
+                <% } %>
+    
+                <a class="nav-link" href="/bank/account_list">
+    
+                    <i class="fas fa-fw fa-male"></i>
+                    <span>계좌 목록</span></a>
+            </li>
+        <!--이조 계좌목록 추가 e-->
+
+        
 
         <li class="nav-item" onclick="active">
             <a class="nav-link" href="#">
@@ -195,6 +210,16 @@
                 <span>멤버십</span></a>
         </li>
 
+        <% if(select === "mydata"){ %>
+            <li class="nav-item active">
+                <% }else{ %>
+            <li class="nav-item" onclick="active">
+                <% } %>
+                <a class="nav-link" href="/bank/mydata">
+                    <i class="fas fa-fw fa-address-card"></i>
+    
+                    <span>마이데이터</span></a>
+            </li> 
 
         <!-- 접기버튼 -->
         <hr class="sidebar-divider d-none d-md-block">
