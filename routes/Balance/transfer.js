@@ -15,6 +15,7 @@ router.post('/', checkCookie, function (req, res, next) {
 
     let json_data = {};
 
+    json_data['from_account'] = parseInt(req.body.from_account);
     json_data['to_account'] = parseInt(req.body.to_account);   //데이터가 숫자로 들어가야 동작함
     json_data['amount'] = parseInt(req.body.amount);
 
