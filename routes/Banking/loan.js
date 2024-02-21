@@ -11,7 +11,7 @@ router.get('/', checkCookie, function (req, res, next) {
     profile(cookie).then(pending => {
         axios({
             method: "post",
-            url: api_url + "/api/beneficiary/loan",
+            url: api_url + "/api/loan/loan",
             headers: {"authorization": "1 " + cookie},
             data: {username: pending.data.username}
         }).then((data) => {
@@ -19,7 +19,6 @@ router.get('/', checkCookie, function (req, res, next) {
             let statusCode = result_data.status;
             let ac = result_data.data.account_number;
             let la = result_data.data.loan_amount;
-            console.log("loan_amount : ", la);
             if (statusCode.code == 200) {
                 var html_data = `
                 <div class="text-center">
@@ -55,7 +54,6 @@ router.get('/', checkCookie, function (req, res, next) {
             
             return res.render("Banking/loan", { html: html_data, pending: pending, select: "loan" });
         } else if (statusCode.code == 400) {
-            console.log('asdfsadfsdfd',ac);
             var html_data =  `
             <div class="text-center">
                 <h4 class="h4 text-gray-900 mb-4">Security 우대대출</h4>
@@ -114,12 +112,10 @@ router.post("/get_debt", checkCookie, function (req, res, next) {
     let username = req.body.username;
     let loan_amount = req.body.loan_amount;
     let account_number = req.body.account_number;
-    console.log(username);
-    console.log(loan_amount);
 
     axios({
         method: "post",
-        url: api_url + "/api/beneficiary/get_debt",
+        url: api_url + "/api/loan/get_debt",
         headers: {"authorization": "1 " + cookie},
         data: {account_number:account_number,username: username, loan_amount: loan_amount}
     }).then((data) => {
@@ -147,13 +143,10 @@ router.post('/repayment', checkCookie, function (req, res, next) {
     profile(cookie).then(pending => {
         let selected_account = req.body.selected_account;
         let repayment_amount = req.body.repayment_amount;
-        let username = req.body.username;
-        console.log(selected_account);
-        console.log(repayment_amount);
 
         axios({
             method: "post",
-            url: api_url + "/api/beneficiary/repayment",
+            url: api_url + "/api/loan/repayment",
             headers: {"authorization": "1 " + cookie},
             data: {selected_account: selected_account, repayment_amount: repayment_amount, username: pending.data.username}
         }).then((data) => {
