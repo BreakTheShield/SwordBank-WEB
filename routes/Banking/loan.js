@@ -29,22 +29,23 @@ router.get('/', checkCookie, function (req, res, next) {
                     대출 취소는 대출받은 계좌에 전액이 있어야 가능합니다.
                     </a>
                 </div>
-                <form id="loan_repayment_form" action="/bank/loan/repayment" method="POST">
-                    <div class="mb-3">
-                        <select class="form-control form-control-user" aria-label="Large select example" name="selected_account" style="width: 40%;">
-                        <option selected>계좌를 선택해 주세요.</option>
+                <form id="loan_repayment_form" name="loan_repayment_form" action="/bank/loan/repayment" method="POST">
+                    <select class="form-control form-control-user mb-3" aria-label="Large select example" name="selected_account" style="width: 100%;">
+                    <option selected>계좌를 선택해 주세요.</option>
                     `;
                     ac.forEach(function (a) {
                         html_data +=`<option value= ${a}>${a}</option>`;
                     })
                     html_data += `</select>
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" name="amount" placeholder="상환 금액" style="width : 40%;">
-                </div>
-            </form>  
-            <a onclick="document.getElementById('send').submit()" class="btn btn-user btn-block" id="submitbutton" style="background-color:#b937a4 !important; color:white !important;">
-            대출 상환
-            </a>          
-            `;
+                    <input type="text" class="form-control form-control-user mb-3" id="repayment_amount" name="repayment_amount" placeholder="상환 금액" style="width : 100%;">
+                </form>  
+                <a onclick="document.getElementById('loan_repayment_form').submit()" class="btn btn-user btn-block" id="submitbutton" style="background-color:#b937a4 !important; color:white !important;">
+                대출 상환
+                </a>
+                <a href="/bank/loan/cancel_loan" class="btn btn-user btn-block" id="submitbutton" style="background-color:#b937a4 !important; color:white !important;">
+                대출 취소
+                </a>
+                `;
 
             
             return res.render("Banking/loan", { html: html_data, pending: pending, select: "loan" });
@@ -89,8 +90,8 @@ router.get('/', checkCookie, function (req, res, next) {
             var html_data =  "<tr>이미 대출하였습니다.</tr>"
             return res.render("Banking/loan", { html: html_data, pending: pending, select: "loan" });
         });
-    })
-})
+    });
+});
 
 router.post("/get_debt", checkCookie, function (req, res, next) {
     const cookie = req.cookies.Token;
@@ -120,6 +121,41 @@ router.post("/get_debt", checkCookie, function (req, res, next) {
             location.href=\"/bank/loan\";
             </script>`);
         }
+    });
+});
+
+router.post('/repayment', checkCookie, function (req, res, next) {
+    const cookie = req.cookies.Token;
+
+    profile(cookie).then(pending => {
+        let selected_account = req.body.selected_account;
+        let repayment_amount = req.body.repayment_amount;
+        let username = req.body.username;
+        console.log(selected_account);
+        console.log(repayment_amount);
+
+        axios({
+            method: "post",
+            url: api_url + "/api/beneficiary/repayment",
+            headers: {"authorization": "1 " + cookie},
+            data: {selected_account: selected_account, repayment_amount: repayment_amount, username: pending.data.username}
+        }).then((data) => {
+            result = decryptRequest(data.data);
+            statusCode = result.data.status;
+            message = result.data.message;
+
+            if(statusCode != 200) {
+                res.send(`<script>
+                alert("${message}");
+                location.href=\"/bank/loan\";
+                </script>`);
+            } else {
+                res.send(`<script>
+                alert("${message}");
+                location.href=\"/bank/loan\";
+                </script>`);
+            }
+        });
     });
 });
 
