@@ -9,16 +9,19 @@ router.get('/', checkCookie, function (req, res, next) {
     const cookie = req.cookies.Token;
 
     profile(cookie).then(pending => {
-
         axios({
             method: "post",
             url: api_url + "/api/beneficiary/loan",
             headers: {"authorization": "1 " + cookie},
-            data:{username:pending.data.username}
+            data: {username: pending.data.username}
         }).then((data) => {
-            let result = decryptRequest(data.data).data;
-            
-            var html_data = `
+            let result_data = decryptRequest(data.data).data;
+            if (result_data.length > 0) {
+            var html_data = "<tr>이미 대출하였습니다.</tr>"
+
+            return res.render("Banking/loan", { html: html_data, pending: pending, select: "loan" });
+        } else {
+            var html_data =  `
             <table class="table table-bordered" id="dataTable" width="100" cellspacing="0">
                 <tr>
                     <td>상품특징</td>
@@ -27,7 +30,7 @@ router.get('/', checkCookie, function (req, res, next) {
                     </td>
                 </tr>
                 <tr>
-                    <td>대출신청자격test</td>
+                    <td>대출신청자격</td>
                     <td>
                         <li>보안 직무(모의해킹 등)를 수행하는 보안 관련 전체 고객</li>                             
                     </td>
@@ -43,45 +46,37 @@ router.get('/', checkCookie, function (req, res, next) {
                     </td>
                 </tr>
             </table>
-            
+
             <form id="get_debt" action="/bank/loan/get_debt" method="POST" name="get_debt">
-                <input type="text" class="form-control form-control-user" id="loan_mount" name="loan_mount" placeholder="대출 금액"><br>
-                <input type="hidden" name="user_name" value="${pending.data.username}"/>
+                <input type="text" class="form-control form-control-user" id="loan_amount" name="loan_amount" placeholder="대출 금액" value=""><br>
+                <input type="hidden" name="username" id="username" value="${pending.data.username}"/> 
             </form>
             <a onclick="document.getElementById('get_debt').submit()" class="btn btn-user btn-block" id="submitbutton" style="background-color:#b937a4 !important; color:white !important;">
-                    대출
-                </a>
+            대출
+            </a>
             `;
-            
-           
-            console.log('입력name', pending.data.username);
-            return res.render("Banking/loan", { html: html_data, pending: pending, select: "loan" });
+            return res.render("Banking/loan", { html: html_data, pending: pending, select: "loan"});
+        }
         }).catch(function (err) {
-            
+
             var html_data =  "<tr>이미 대출하였습니다.</tr>"
             return res.render("Banking/loan", { html: html_data, pending: pending, select: "loan" });
         });
-    });
-});
+    })
+})
 
 router.post("/get_debt", checkCookie, function (req, res, next) {
     const cookie = req.cookies.Token;
-    let temp_name = req.body.username;
-    console.log('getname=',temp_name);
-    
-    const username = req.body.username;
-    const loan_mount1 = req.body.loan_mount;
-
-    const baseData = `{"username": "${username}"}`;
-    const enData = encryptResponse(baseData);
+    let username = req.body.username;
+    let loan_amount = req.body.loan_amount;
+    console.log(username);
+    console.log(loan_amount);
 
     axios({
         method: "post",
         url: api_url + "/api/beneficiary/get_debt",
         headers: {"authorization": "1 " + cookie},
-        username: username, 
-        loan_mount: loan_mount1,
-        data: enData
+        data: {username: username, loan_amount: loan_amount}
     }).then((data) => {
         result = decryptRequest(data.data);
         statusCode = result.data.status;
