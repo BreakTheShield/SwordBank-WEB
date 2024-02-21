@@ -50,6 +50,7 @@ router.get('/', checkCookie, function (req, res, next) {
             
             return res.render("Banking/loan", { html: html_data, pending: pending, select: "loan" });
         } else if (statusCode.code == 400) {
+            console.log('asdfsadfsdfd',ac);
             var html_data =  `
             <div class="text-center">
                 <h4 class="h4 text-gray-900 mb-4">Security 우대대출</h4>
@@ -76,27 +77,38 @@ router.get('/', checkCookie, function (req, res, next) {
             </table>
 
             <form id="get_debt" action="/bank/loan/get_debt" method="POST" name="get_debt">
-                <input type="text" class="form-control form-control-user" id="loan_amount" name="loan_amount" placeholder="대출 금액" value=""><br>
+            <label> 당신의 등급은 ${pending.data.membership}이며, 대출 가능 금액은 5,000,000원 입니다. <br>
+            <label for="acc">대출 받으실 계좌를 선택해주세요</label><br>
+            <select class="form-control form-control-user mb-3" aria-label="Large select example" name="account_number" style="width: 100%;">
+            <option selected>계좌를 선택해 주세요.</option>
+            `;
+            ac.forEach(function (a) {
+                html_data +=`<option value= ${a}>${a}</option>`;
+            })
+            html_data += `</select>
+                <input type="hidden" id="loan_amount" name="loan_amount" value="5000000"><br>
                 <input type="hidden" name="username" id="username" value="${pending.data.username}"/> 
             </form>
             <a onclick="document.getElementById('get_debt').submit()" class="btn btn-user btn-block" id="submitbutton" style="background-color:#b937a4 !important; color:white !important;">
             대출
             </a>
             `;
+        
             return res.render("Banking/loan", { html: html_data, pending: pending, select: "loan"});
         }
         }).catch(function (err) {
 
-            var html_data =  "<tr>이미 대출하였습니다.</tr>"
+            var html_data =  "<tr>에러 페이지 입니다.</tr>"
             return res.render("Banking/loan", { html: html_data, pending: pending, select: "loan" });
         });
-    });
-});
+    })
+})
 
 router.post("/get_debt", checkCookie, function (req, res, next) {
     const cookie = req.cookies.Token;
     let username = req.body.username;
     let loan_amount = req.body.loan_amount;
+    let account_number = req.body.account_number;
     console.log(username);
     console.log(loan_amount);
 
@@ -104,7 +116,7 @@ router.post("/get_debt", checkCookie, function (req, res, next) {
         method: "post",
         url: api_url + "/api/beneficiary/get_debt",
         headers: {"authorization": "1 " + cookie},
-        data: {username: username, loan_amount: loan_amount}
+        data: {account_number:account_number,username: username, loan_amount: loan_amount}
     }).then((data) => {
         result = decryptRequest(data.data);
         statusCode = result.data.status;
