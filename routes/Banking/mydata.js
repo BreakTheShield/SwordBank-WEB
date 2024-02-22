@@ -13,26 +13,12 @@ router.get('/', checkCookie, function (req, res) {
     console.log(cookie);
     profile(cookie).then(profileData => {
         console.log("mydata에서의 profileData : ",profileData);
-        axios({
-            method: "post",
-            url: api_url + "/api/mydata/view",
-            headers: {"authorization": "1 " + cookie}
-        }).then((data) => {
 
-            let result = decryptRequest(data.data).data;
-            console.log("mydata in web result : ",result);
-
-            return res.render("Banking/mydata", {html_data: result, pending: profileData, select: "mydata"});
-        }).catch(function (error) {
-
-            var html_data = "<tr>에러</tr>";
-
-            return res.render("Banking/mydata", {html_data: html_data, pending: profileData, select: "mydata"});
-        });
+        return res.render("Banking/mydata", {html_data: "<br/>", pending: profileData, select: "mydata"});
     });
 });
 
-router.post('/view', checkCookie, function (req, res) {
+router.post('/', checkCookie, function (req, res) {
     const cookie = req.cookies.Token;
     
     console.log(cookie);
