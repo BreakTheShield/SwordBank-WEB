@@ -49,7 +49,6 @@ router.get('/', checkCookie, function (req, res) {
 router.post('/', checkCookie, function (req, res) {
     const cookie = req.cookies.Token;
     
-    console.log(cookie);
     profile(cookie).then(profileData => {
         console.log("account_list_post에서의 profileData : ",profileData);
         axios({
@@ -58,8 +57,8 @@ router.post('/', checkCookie, function (req, res) {
             headers: {"authorization": "1 " + cookie}
         }).then((data) => {
 
+            console.log("mydatat got data@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ : ",data);
             let result = decryptRequest(data.data).data;
-            console.log("accout new create result : ",result);
 
             return res.render("Banking/mydata", {html_data: result, pending: profileData, select: "mydata"});
         }).catch(function (error) {
@@ -67,7 +66,7 @@ router.post('/', checkCookie, function (req, res) {
             var html_data = [
                  { username: error, balance: error, account_number: error, bank_code: error }
             ];
-
+            console.log("mydata error!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
             return res.render("Banking/mydata", {html_data: html_data, pending: profileData, select: "mydata"});
         });
     });
