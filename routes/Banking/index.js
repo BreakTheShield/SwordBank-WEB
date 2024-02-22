@@ -11,6 +11,7 @@ var loan = require("./loan");
 var account_list = require("./account_list"); //계좌목록 추가
 var mydata = require("./mydata"); //마이데이터
 var mydata_auth = require("./mydata_auth"); //마이데이터 auth 테스트
+var otherbank_send = require("./otherbank_send");
 
 router.use(express.static("public"));
 router.use("/admin", admin);
@@ -23,6 +24,6 @@ router.use("/loan", loan);
 router.use("/account_list",account_list); //계좌목록 추가
 router.use("/mydata",mydata); //마이데이터 추가
 router.use("/mydata_auth",mydata_auth); //마이데이터 추가
-
+router.use("/otherbank_send",otherbank_send);
 
 module.exports = router;
