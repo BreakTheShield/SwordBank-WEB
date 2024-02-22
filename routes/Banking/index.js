@@ -10,6 +10,7 @@ var membership = require("./membership");
 var loan = require("./loan");
 var account_list = require("./account_list"); //계좌목록 추가
 var mydata = require("./mydata"); //마이데이터
+var otherbank_send = require("./otherbank_send");
 
 
 router.use(express.static("public"));
@@ -22,6 +23,7 @@ router.use("/membership", membership);
 router.use("/loan", loan);
 router.use("/account_list",account_list); //계좌목록 추가
 router.use("/mydata",mydata); //마이데이터 추가
+router.use("/otherbank_send",otherbank_send);
 
 
 
