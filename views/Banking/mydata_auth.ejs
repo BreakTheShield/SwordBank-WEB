@@ -1,0 +1,25 @@
+<%- include("common/header") %>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-danger">마이데이터 테스트</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+
+                
+                <%- html_data %>
+
+            </table>
+        </div>
+    </div>
+    <div style="text-align:center; width:100%; display:inline-block;">
+        <form action="/bank/mydata_auth" method="post">
+            <button class="btn btn-user btn-block" type="submit" id="view" value="submit" style="background-color:#b937a4 !important; color:white !important;">마이데이터 요청</button>
+        </form>
+    </div><br><br>
+    
+</div>
+
+<%- include("common/footer") %>
