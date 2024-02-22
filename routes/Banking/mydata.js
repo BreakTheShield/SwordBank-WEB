@@ -50,11 +50,11 @@ router.post('/', checkCookie, function (req, res) {
     const cookie = req.cookies.Token;
     
     profile(cookie).then(profileData => {
-        console.log("account_list_post에서의 profileData : ",profileData);
+        console.log("account_list_post에서의 getdata : ",profileData);
         axios({
             method: "post",
-            url: api_url + "/api/mydata/getdata",
-            headers: {"authorization": "1 " + cookie}
+            url: api_url + "/api/mydata/req_account",
+            headers: {"authorization": "1 " + cookie},
         }).then((data) => {
 
             console.log("mydatat got data@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ : ",data);
