@@ -9,13 +9,31 @@ var html_data_description = "<h3 align='center'> Mydata 서비스는 타은행�
 
 
 router.get('/', checkCookie, function (req, res) {      // 요청하기 버튼 띄워주는 get 요청
-    const cookie = req.cookies.Token;
-    console.log(cookie);
-    profile(cookie).then(profileData => {
-        console.log("mydata에서의 profileData : ",profileData);
+  const cookie = req.cookies.Token;
+  console.log(cookie);
+  
+  profile(cookie).then(profileData => {
+      console.log("mydata에서의 profileData : ",profileData.data.is_mydata);
+                  //해야되는 것이 is_mydata를 받아와서 1이면 신청하기 버튼이 보이면 안되고, 0이면 신청하기 버튼이 보여야함.
+      var is_mydata = profileData.data.is_mydata;
+      
 
-        return res.render("Banking/mydata_auth", {html_data: "<br/>", pending: profileData, select: "mydata"});
-    });
+      if(is_mydata){
+          return res.render("Banking/mydata_auth", {html_data: "<br/>", pending: profileData, select: "mydata"});
+      }
+      else{
+          var result = `
+          <div style="text-align:center; width:100%; display:inline-block;">
+      <form action="/bank/mydata_auth" method="post">
+          <button class="btn btn-user btn-block" type="submit" id="view" value="submit" style="background-color:#b937a4 !important; color:white !important;">마이데이터 요청</button>
+      </form>
+  </div>
+          `
+          return res.render("Banking/mydata_auth", {html_data: result, pending: profileData, select: "mydata"});
+      }
+      
+     // return res.render("Banking/mydata_auth", {html_data: "<br/>", pending: profileData, select: "mydata"});
+  });
 });
 
 router.post('/', checkCookie, function (req, res) {         //해당 요청하기 버튼을 눌렀을 때 post를 보내주는 코드.
@@ -33,42 +51,28 @@ router.post('/', checkCookie, function (req, res) {         //해당 요청하�
             let result = decryptRequest(data.data);
             console.log("result@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ : ",result); //여기서 
             if(result.status.code==200){ //인증번호가 제대로 보내졌으므로 인증번호를 입력하는 창으로 보냄.
-                let result = `<script>
-                // 팝업 생성 함수
-                function createPrompt() {
-                  var userInput = prompt("인증번호를 입력해주세요.", "");
-                  if (userInput === null || userInput === "") {
-                    alert("입력이 취소되었거나 입력이 없습니다.");
-                  } else {
-                    var authnum = userInput;
-      // 인증번호를 처리하는 API 호출
-      fetch('/bank/mydata_auth/authnum', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ 'authnum': authnum })
-      }).then(response => response.json())
-      .then(data => {
-        // 성공적인 응답 처리
-        console.log(data);
-      })
-      .catch(error => {
-        // 에러 처리
-        console.error('Fetch Error:', error);
-      });
-                  }
-                }
-              
-                // 팝업 생성 함수 호출
-                createPrompt();
-              </script>`
-                return res.render("Banking/mydata_auth", {html_data: result, pending: profileData, select: "mydata"});
+                let result = `
+                <form action="/bank/mydata_auth/authnum" method="post" id="authnum">
+                  <div class="form-group">
+                      <input type="number" class="form-control form-control-user" name="authnum" placeholder="인증번호를 입력해주세요" value="">
+                          <br>
+                  </div>
+                </form>
+                <a onclick="document.getElementById('authnum').submit()" class="btn btn-user btn-block" style="background-color:#b937a4 !important; color:white !important;">
+                확인
+              </a>
+              <br>
+              <a href="/bank/mydata_auth" onclick="document.getElementById('register').submit();" class="btn btn-user btn-block" style="background-color:#b937a4 !important; color:white !important;">
+                취소
+              </a>
+                `
+                return res.render("Banking/success_auth", {html_data: result, pending: profileData, select: "mydata"});
             }
             else{
                 let result = "오류입니다."
                 
-                return res.render("Banking/mydata_auth", {html_data: result, pending: profileData, select: "mydata"})
+                
+                return res.render("Banking/success_auth", {html_data: result, pending: profileData, select: "mydata"})
             }
         }).catch(function (error) {
 
@@ -85,7 +89,7 @@ router.post('/', checkCookie, function (req, res) {         //해당 요청하�
 router.post('/authnum', checkCookie, function (req, res) {      //인증번호를 A API로 보내주는 부분.
     const cookie = req.cookies.Token;
     let authnum = req.body.authnum;
-    console.log("AUTH_NUM@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ : ",authnum);
+    console.log("@@@@@@@@@@@@@@@@@@@AUTH_NUM@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ : ",authnum);
     profile(cookie).then(profileData => {
         axios({
             method: "post",
@@ -94,16 +98,27 @@ router.post('/authnum', checkCookie, function (req, res) {      //인증번호�
             data: {
                 authnum: authnum
             }
-        }).then((data)=>{
+          }).then((data)=>{
+            let result = decryptRequest(data.data);
+            if (result.status.code == 200){
+              let html_data = `
+              <script>alert('인증에 성공했습니다');</script>
+              `;
+              console.log("이것은 내가 원하는 데이터입니다.", result);
+              return res.render("Banking/mydata_auth", {html_data: html_data, pending: profileData, select: "mydata"});
+            } else {
+              let html_data = `
+              <script>alert('인증에 실패했습니다');</script>
+              `;
+              console.log("이것은 내가 원하는 데이터입니다.", result);
 
-            console.log("WEB으로 받아옴!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-            return res.render("Banking/mydata_auth", {html_data: "<br/>", pending: profileData, select: "mydata"});
-        }).then((err)=>{
+              return res.render("Banking/mydata_auth", {html_data: html_data, pending: profileData, select: "mydata"});
+            }
+            }).catch(function (err) {
 
-
-        })
-
-        return res.render("Banking/mydata_auth", {html_data: "<br/>", pending: profileData, select: "mydata"});
-    });
-});
+              var result =  "<tr>에러 페이지 입니다.</tr>"
+          return res.render("Banking/mydata_auth", {html_data: result, pending: profileData, select: "mydata"});
+      });
+  });
+})
 module.exports = router;
