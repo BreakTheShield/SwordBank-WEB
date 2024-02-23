@@ -47,8 +47,16 @@ router.post('/', checkCookie, function (req, res) {         //해당 요청하�
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ authnum: authnum })
+        body: JSON.stringify({ 'authnum': authnum })
+      }).then(response => response.json())
+      .then(data => {
+        // 성공적인 응답 처리
+        console.log(data);
       })
+      .catch(error => {
+        // 에러 처리
+        console.error('Fetch Error:', error);
+      });
                   }
                 }
               
@@ -88,6 +96,7 @@ router.post('/authnum', checkCookie, function (req, res) {      //인증번호�
             }
         }).then((data)=>{
 
+            console.log("WEB으로 받아옴!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
             return res.render("Banking/mydata_auth", {html_data: "<br/>", pending: profileData, select: "mydata"});
         }).then((err)=>{
 
