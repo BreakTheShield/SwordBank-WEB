@@ -18,13 +18,18 @@ router.get("/", checkCookie, async (req, res) => {
             var d = decryptRequest((data2.data));
             var results = d.data.accountdata;
             var html_data = `
-                <input type="text" class="form-control form-control-user" autocomplete="off" id="drop_from" name="from_account" placeholder="보내는 계좌번호" list="dropdown_from">
+                <input type="text" class="form-control form-control-user" autocomplete="off" id="drop_from" name="from_account" placeholder="보내는 계좌번호" list="dropdown_from" value="from_amount" readonly>
                 <datalist id="dropdown_from">`;
             results.forEach(function (a) {
                 html_data += `<option value="${a}"></option>`;
             });
-
             html_data += `</datalist>`;
+
+            html_data += `<input type="text" class="form-control form-control-user" autocomplete="off" id="drop" name="bank_code" placeholder="은행코드" list="dropdown" value="bankcode" readonly> <datalist id="dropdown">`
+            results.forEach(function (a) {
+                html_data += `<option value= "${a}"></option>`;
+            })
+            html_data += `</datalist>`
 
             html_data += `<input type="text" class="form-control form-control-user" autocomplete="off" id="drop" name="to_account" placeholder="대상 계좌번호" list="dropdown"> <datalist id="dropdown">`
             results.forEach(function (a) {
@@ -32,11 +37,12 @@ router.get("/", checkCookie, async (req, res) => {
             })
             html_data += `</datalist>`
 
-            html_data += `<input type="text" class="form-control form-control-user" autocomplete="off" id="drop" name="bank_code" placeholder="은행코드" list="dropdown"> <datalist id="dropdown">`
+            html_data += `<input type="text" class="form-control form-control-user" autocomplete="off" id="drop" name="amount" placeholder="금액" list="dropdown"> <datalist id="dropdown">`
             results.forEach(function (a) {
-                html_data += `<option value= "${a}"></option>`;
+                html_data += `<option value= ${a}></option>`;
             })
             html_data += `</datalist>`
+
             res.render("Banking/otherbank_send", {pending: data, html: html_data, select: "otherbank_send"});
         });
     });
