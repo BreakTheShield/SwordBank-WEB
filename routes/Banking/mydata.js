@@ -8,6 +8,7 @@ const checkCookie = require("../../middlewares/checkCookie")
 var html_data_description = "<h3 align='center'> Mydata 서비스는 타은행의 계좌 잔고확인/송금 까지 한번에 해결할 수 있도록 하는 서비스입니다 !</h3>"
 
 
+
 router.get('/', checkCookie, function (req, res) {
     const cookie = req.cookies.Token;
     console.log(cookie);
@@ -45,6 +46,7 @@ router.get('/', checkCookie, function (req, res) {
 //     });
 // });
 
+
 // 외부 api 응답 출력
 router.post('/', checkCookie, function (req, res) {
     const cookie = req.cookies.Token;
@@ -67,11 +69,12 @@ router.post('/', checkCookie, function (req, res) {
                     result += "<td>" + account.balance + "</td>\n";
                     result += "<td>" + account.bank_code + "</td>\n";
                     result += "<td style='width:89px'> <button ";
-                    result += "class='btn btn-user btn-block' type='submit' id='view' value='submit' style='background-color:#b937a4 !important; color:white !important;'>"
+                    result += "class='btn btn-user btn-block' type='button' onclick='redirectToTransferPage(\"" + account.account_number + "\", \"" + account.balance + "\", \"" + account.bank_code + "\")' style='background-color:#b937a4 !important; color:white !important;'>"
                     result += "송금</button></td>";
                     result += "</tr>\n";
 
                 });
+                
             }
             else {
                 result += "<tr>\n"
