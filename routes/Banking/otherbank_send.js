@@ -35,7 +35,7 @@ router.get("/", checkCookie, async (req, res) => {
            html_data += `<option value="333">창칼은행  </option></select>`
 
 
-           html_data += `<input type="text" class="form-control form-control-user" id="to_account" name="amount" placeholder="대상 계좌번호">`
+           html_data += `<input type="text" class="form-control form-control-user" id="to_account" name="to_amount" placeholder="대상 계좌번호">`
 
 
            html_data += `<input type="text" class="form-control form-control-user" id="amount" name="amount" placeholder="금액">`
