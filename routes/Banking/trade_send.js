@@ -8,15 +8,20 @@ var {seoultime} = require('../../middlewares/seoultime');
 
 router.get("/", checkCookie, async (req, res) => {
     const cookie = req.cookies.Token;
-   
+    
     profile(cookie).then((data) => {
+        //console.log("1111111111111",data.data.username);
         axios({
             method: "post",
-            url: api_url + "/api/beneficiary/check",
+            url: api_url + "/api/beneficiary/account",
             headers: {"authorization": "1 " + cookie},
+            data:{username:data.data.username}
         }).then((data2) => {
             var d = decryptRequest((data2.data));
+            //var c = decryptRequest(data2);
+            //console.log('송금하기 확인2222222222222222', profile);
             var results = d.data.accountdata;
+            //console.log('송금하기 확인1@@@@@@@@@@@@@@@@', results);
             var html_data = `
                 <input type="text" class="form-control form-control-user" autocomplete="off" id="drop_from" name="from_account" placeholder="보내는 계좌번호" list="dropdown_from">
                 <datalist id="dropdown_from">`;
@@ -24,14 +29,9 @@ router.get("/", checkCookie, async (req, res) => {
                 html_data += `<option value="${a}"></option>`;
             });
 
-            html_data += `</datalist>`;
+            html_data += `</datalist><br>`;
 
-            html_data += `<input type="text" class="form-control form-control-user" autocomplete="off" id="drop" name="to_account" placeholder="대상 계좌번호" list="dropdown"> <datalist id="dropdown">`
-
-            results.forEach(function (a) {
-                html_data += `<option value= ${a}></option>`;
-            })
-            html_data += `</datalist>`
+            html_data += `<input type="text" class="form-control form-control-user mb-3"id="to_account" name="to_account" placeholder="대상 계좌번호" > `
             res.render("Banking/trade_send", {pending: data, html: html_data, select: "send"});
         });
     });
