@@ -45,29 +45,45 @@ router.get('/', checkCookie, function (req, res) {
 //     });
 // });
 
-// 외부 api test
+// 외부 api 응답 출력
 router.post('/', checkCookie, function (req, res) {
     const cookie = req.cookies.Token;
     
     profile(cookie).then(profileData => {
-        console.log("account_list_post에서의 getdata : ",profileData);
         axios({
             method: "post",
             url: api_url + "/api/mydata/req_account",
             headers: {"authorization": "1 " + cookie},
         }).then((data) => {
+            var account_list = data.data.data;
+            console.log("mydatat got data@@@@@@@@@ : ", account_list);
+            var result="";
+            
+            if(account_list.length > 0) {
+                console.log("들어왔다!");
+                result = "<tr>\n";
+                account_list.forEach(account => {
+                    result += "<td>" + account.account_number + "</td>\n";
+                    result += "<td>" + account.balance + "</td>\n";
+                    result += "<td>" + account.bank_code + "</td>\n";
+                    result += "<td style='width:89px'> <button ";
+                    result += "class='btn btn-user btn-block' type='submit' id='view' value='submit' style='background-color:#b937a4 !important; color:white !important;'>"
+                    result += "송금</button></td>";
+                    result += "</tr>\n";
 
-            console.log("mydatat got data@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ : ",data);
-            let result = decryptRequest(data.data).data;
+                });
+            }
+            else {
+                result += "<tr>\n"
+                result += "<td colspan='3'>계좌가 없습니다.</td>\n"
+                result += "</tr>\n"
+            }
 
             return res.render("Banking/mydata", {html_data: result, pending: profileData, select: "mydata"});
         }).catch(function (error) {
 
-            var html_data = [
-                 { username: error, balance: error, account_number: error, bank_code: error }
-            ];
-            console.log("mydata error!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-            return res.render("Banking/mydata", {html_data: html_data, pending: profileData, select: "mydata"});
+            console.log("mydata error!@@@@@@@@@@");
+            return error;
         });
     });
 });
