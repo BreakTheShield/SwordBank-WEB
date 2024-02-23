@@ -24,18 +24,17 @@ router.get("/", checkCookie, async (req, res) => {
            //bankcod:555=A은행 , 333=B은행
            var d = decryptRequest((data2.data));
            var results = d.data.accountdata;
-           var html_data = `<h3>from account 수정필요</h3>
-               <input type="text" class="form-control form-control-user" autocomplete="off" id="drop_from" name="from_account" placeholder="${accountNumber}" list="dropdown_from" value="${accountNumber}" readonly>`
+           var html_data = `<label>출금 계좌 : </label><input type="text" class="form-control form-control-user" autocomplete="off" id="drop_from" name="from_account" placeholder="${accountNumber}" list="dropdown_from" value="${accountNumber}" readonly><br>`
                
 
 
            //html_data += `<input>`;
            html_data += `<select name="bank_code" class="form-control form-control-user" id="bank_code">`
            html_data += `<option value="555">쉴드은행</option>`
-           html_data += `<option value="333">창칼은행  </option></select>`
+           html_data += `<option value="333">창칼은행  </option></select><br>`
 
 
-           html_data += `<input type="text" class="form-control form-control-user" id="to_account" name="to_account" placeholder="대상 계좌번호">`
+           html_data += `<input type="text" class="form-control form-control-user" id="to_account" name="to_account" placeholder="대상 계좌번호"><br>`
 
 
            html_data += `<input type="text" class="form-control form-control-user" id="amount" name="amount" placeholder="금액">`
