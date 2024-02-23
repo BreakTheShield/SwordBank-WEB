@@ -172,13 +172,12 @@ router.post('/repayment', checkCookie, function (req, res, next) {
 router.post('/cancel', checkCookie, function (req, res, next) {
     const cookie = req.cookies.Token;
     let selected_account = req.body.selected_account;
-    let currenttime = seoultime;
     profile(cookie).then(pending => {
         axios({
             method: "post",
             url: api_url + "/api/loan/loan_cancel",
             headers: {"authorization": "1 " + cookie},
-            data: {username: pending.data.username, selected_account: selected_account, currenttime: currenttime }
+            data: {username: pending.data.username, selected_account: selected_account }
         }).then((data) =>{
             result = decryptRequest(data.data);
             statusCode = result.data.status;
