@@ -37,7 +37,7 @@ router.get("/", checkCookie, async (req, res) => {
     });
 });
 
-router.post("/post", checkCookie, function (req, res, next) {
+router.post("/post", checkCookie, async function (req, res, next) {
     const cookie = req.cookies.Token;
     let json_data = {};
     let result = {};
@@ -47,18 +47,26 @@ router.post("/post", checkCookie, function (req, res, next) {
     json_data['amount'] = parseInt(req.body.amount);
     json_data['sendtime'] = seoultime;
 
-    const en_data = encryptResponse(JSON.stringify(json_data));// 객체를 문자열로 반환 후 암호화
-    axios({
-        method: "post",
-        url: api_url + "/api/balance/transfer",
-        headers: {"authorization": "1 " + cookie},
-        data: en_data
-    }).then((data) => {
-        result = decryptRequest(data.data);
-        statusCode = result.data.status;
-        message = result.data.message;
+    try {
+        const cookie = req.cookies.Token;
+        let json_data = {};
+        let result = {};
 
-        if(statusCode != 200) {
+        json_data['from_account'] = parseInt(req.body.from_account);
+        json_data['to_account'] = parseInt(req.body.to_account);   // 데이터가 숫자로 들어가야 동작함
+        json_data['amount'] = parseInt(req.body.amount);
+        json_data['sendtime'] = seoultime;
+
+        const en_data = encryptResponse(JSON.stringify(json_data)); // 객체를 문자열로 반환 후 암호화
+        const data = await axios.post(api_url + "/api/balance/transfer", en_data, {
+            headers: {"authorization": "1 " + cookie}
+        });
+
+        result = decryptRequest(data.data);
+        const statusCode = result.data.status;
+        const message = result.data.message;
+
+        if (statusCode != 200) {
             res.send(`<script>
             alert("${message}");
             location.href=\"/bank/send\";
@@ -69,7 +77,40 @@ router.post("/post", checkCookie, function (req, res, next) {
             location.href=\"/bank/list\";
             </script>`);
         }
-    });
+    } catch (error) {
+        console.error("Error while sending transfer request:", error);
+        res.status(500).send("Internal server error");
+    }
+    
+
+    // const en_data = encryptResponse(JSON.stringify(json_data));// 객체를 문자열로 반환 후 암호화
+    // axios({
+    //     method: "post",
+    //     url: api_url + "/api/balance/transfer",
+    //     headers: {"authorization": "1 " + cookie},
+    //     data: en_data
+    // }).then((data) => {
+    //     result = decryptRequest(data.data);
+    //     statusCode = result.data.status;
+    //     message = result.data.message;
+
+    //     if(statusCode == 200) {
+    //         res.send(`<script>
+    //         alert("${message}");
+    //         location.href="/bank/send";
+    //         </script>`);
+    //     } else {
+    //         res.send(`<script>
+    //         alert("${message}");
+    //         location.href="/bank/list";
+    //         </script>`);
+    //     }
+    // }).catch(err => {
+    //     console.error("Error while sending transfer request:", err);
+    //     res.send(`<script>
+    //         location.href="/bank/list";
+    //     </script>`);
+    // });
 });
 
 module.exports = router;
