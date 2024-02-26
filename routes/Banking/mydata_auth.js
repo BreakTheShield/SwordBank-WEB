@@ -5,19 +5,12 @@ var { encryptResponse, decryptRequest } = require("../../middlewares/crypt");
 const profile = require('../../middlewares/profile');
 const checkCookie = require("../../middlewares/checkCookie")
 
-var html_data_description = "<h3 align='center'> Mydata 서비스는 타은행의 계좌 잔고확인/송금 까지 한번에 해결할 수 있도록 하는 서비스입니다 !</h3>"
-
-
 router.get('/', checkCookie, function (req, res) {      // 요청하기 버튼 띄워주는 get 요청
     const cookie = req.cookies.Token;
-    console.log(cookie);
 
     profile(cookie).then(profileData => {
-        console.log("mydata에서의 profileData : ", profileData.data.is_mydata);
         //해야되는 것이 is_mydata를 받아와서 1이면 신청하기 버튼이 보이면 안되고, 0이면 신청하기 버튼이 보여야함.
         var is_mydata = profileData.data.is_mydata;
-
-
         if (is_mydata) {
             return res.redirect("/bank/mydata");
         }
@@ -40,16 +33,13 @@ router.post('/', checkCookie, function (req, res) {         //해당 요청하�
     const cookie = req.cookies.Token;
 
     profile(cookie).then(profileData => {
-        console.log("Mydata_auth.js에서 axios get 요청 전  :@@@@@@@@@@@@@@@ ");
         axios({
             method: "get",
             url: api_url + "/api/Mydata/mydata_sms",
             headers: { "authorization": "1 " + cookie }
         }).then((data) => {
 
-            console.log("mydatat got data.data@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ : ", data.data);
             let result = decryptRequest(data.data);
-            console.log("result@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ : ", result); //여기서 
             if (result.status.code == 200) { //인증번호가 제대로 보내졌으므로 인증번호를 입력하는 창으로 보냄.
                 let result = `
                 <form action="/bank/mydata_auth/authnum" method="post" id="authnum">
@@ -79,7 +69,6 @@ router.post('/', checkCookie, function (req, res) {         //해당 요청하�
             var html_data = [
                 { username: error, balance: error, account_number: error, bank_code: error }
             ];
-            console.log("mydata error!@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
             return res.render("Banking/mydata_auth", { html_data: html_data, pending: profileData, select: "mydata" });
         });
     });
@@ -89,7 +78,6 @@ router.post('/', checkCookie, function (req, res) {         //해당 요청하�
 router.post('/authnum', checkCookie, function (req, res) {      //인증번호를 A API로 보내주는 부분.
     const cookie = req.cookies.Token;
     let authnum = req.body.authnum;
-    console.log("@@@@@@@@@@@@@@@@@@@AUTH_NUM@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ : ", authnum);
     profile(cookie).then(profileData => {
         axios({
             method: "post",
@@ -98,22 +86,22 @@ router.post('/authnum', checkCookie, function (req, res) {      //인증번호�
             data: {
                 authnum: authnum
             }
-        }).then((data) => {
-            let result = decryptRequest(data.data);
+        }).then((smsdata) => {
+            var result = decryptRequest(smsdata.data);
             if (result.status.code == 200) {
+
                 let html_data = `
                 <script>
                 alert('인증에 성공했습니다');
                 window.location.href = "/bank/mydata";
             </script>
               `;
-                console.log("이것은 내가 원하는 데이터입니다.", result);
                 return res.send(html_data);
             } else {
+
                 let html_data = `
               <script>alert('인증에 실패했습니다');</script>
               `;
-                console.log("이것은 내가 원하는 데이터입니다.", result);
 
                 return res.render("Banking/mydata_auth", { html_data: html_data, pending: profileData, select: "mydata" });
             }
