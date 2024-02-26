@@ -69,7 +69,7 @@ router.post('/', checkCookie, function (req, res) {
                     result += "<td>" + account.balance + "</td>\n";
                     result += "<td>" + account.bank_code + "</td>\n";
                     result += "<td style='width:89px'> <button ";
-                    result += "class='btn btn-user btn-block' type='button' onclick='redirectToTransferPage(\"" + account.account_number + "\", \"" + account.balance + "\", \"" + account.bank_code + "\")' style='background-color:#b937a4 !important; color:white !important;'>"
+                    result += "class='btn btn-user btn-block' type='button' onclick='redirectToTransferPage(\"" + account.account_number + "\", \"" + account.balance + "\", \"" + account.bank_code + "\")' style='background-color:#37a437 !important; color:white !important;'>"
                     result += "송금</button></td>";
                     result += "</tr>\n";
 

@@ -25,7 +25,7 @@ router.get('/', checkCookie, function (req, res) {      // 요청하기 버튼 �
             var result = `
             <div style="text-align:center; width:100%; display:inline-block;">
             <form action="/bank/mydata_auth" method="post">
-            <button class="btn btn-user btn-block" type="submit" id="view" value="submit" style="background-color:#b937a4 !important; color:white !important;">마이데이터 요청</button>
+            <button class="btn btn-user btn-block" type="submit" id="view" value="submit" style="background-color:#37a437 !important; color:white !important;">마이데이터 요청</button>
             </form>
             </div>
           `
@@ -58,11 +58,11 @@ router.post('/', checkCookie, function (req, res) {         //해당 요청하�
                           <br>
                   </div>
                 </form>
-                <a onclick="document.getElementById('authnum').submit()" class="btn btn-user btn-block" style="background-color:#b937a4 !important; color:white !important;">
+                <a onclick="document.getElementById('authnum').submit()" class="btn btn-user btn-block" style="background-color:#37a437 !important; color:white !important;">
                 확인
               </a>
               <br>
-              <a href="/bank/mydata_auth" onclick="document.getElementById('register').submit();" class="btn btn-user btn-block" style="background-color:#b937a4 !important; color:white !important;">
+              <a href="/bank/mydata_auth" onclick="document.getElementById('register').submit();" class="btn btn-user btn-block" style="background-color:#37a437 !important; color:white !important;">
                 취소
               </a>
                 `
