@@ -21,10 +21,24 @@
                 <tbody>
                     <% if (html_data && html_data.length > 0) { %>
                         <% html_data.forEach(account => { %>
+                            <%
+                            if(account.bank_code == 333){
+                                var bank_code = "SWORDBANK";
+                            }
+                            else{
+                                var bank_code = "SHIELDBANK";
+                            }
+                            if(account.bank_code == 333){
+                                var bank_code = "SWORDBANK";
+                            }
+                            else{
+                                var bank_code = "SHIELDBANK";
+                            }
+                            %>        
                             <tr>
                                 <td><%= account.account_number %></td>
                                 <td><%= account.balance %></td>
-                                <td><%= account.bank_code %></td>
+                                <td><%= bank_code %></td>
                                 <!-- 원하는 다른 열 데이터 추가 가능 -->
                             </tr>
                         <% }); %>
