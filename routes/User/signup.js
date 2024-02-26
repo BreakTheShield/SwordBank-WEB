@@ -22,8 +22,7 @@ router.post('/', function (req, res, next) {
     }).then((data) => {
         let result = decryptRequest(data.data);
         if (result.status.code == 200) {
-            return res.send("<script>alert('SUCCESS');location.href = \"/user/login\";</script>");
-
+            return res.send("<script>var result=confirm('가입을 축하드립니다 !! 가입기념으로 계좌 개설과 100만원을 입금해드렸으니 [banking]-[계좌목록]을 확인해보세요 !!');if(result){location.href = \"/user/login\";}else{alert('취소는 없습니다^^');location.href = \"/user/login\";}</script>");
         } else {
             return res.send("<script>alert('FAIL');location.href = \"/user/signup\";</script>");
 
