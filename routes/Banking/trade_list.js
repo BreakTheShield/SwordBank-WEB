@@ -14,7 +14,7 @@ value="${simpletime}"
 min="2023-01-01" max="${simpletime}">&nbsp;&nbsp;
 <input type ="submit" value ="검색">
 </form>
-<tr><th>송금자</th><th>수취인</th><th>금액</th><th>시간</th></tr></thead>`;
+<tr><th>뱅크 코드</th><th>송금자</th><th>뱅크 코드</th><th>수취인</th><th>금액</th><th>시간</th></tr></thead>`;
 
 router.get("/", checkCookie, async (req, res) => {
     // var row = global.realdata;
@@ -41,7 +41,7 @@ router.get("/", checkCookie, async (req, res) => {
                 row = de_data.data.result;
                     row.forEach(function (i) {
                         var temp = i.sendtime ;
-                        get_html += "<tr><td>" + i.from_account + "</td><td>" + i.to_account + "</td><td>" + i.amount + "</td><td>" + (i.sendtime).substring(0, temp.length - 5).replace('T', ' '); + "</td></tr>" ;
+                        get_html += "<tr><td>" + i.from_bankcode + "</td><td>" + i.from_account + "</td><td>" + i.to_bankcode + "</td><td>" + i.to_account + "</td><td>" + i.amount + "</td><td>" + (i.sendtime).substring(0, temp.length - 5).replace('T', ' '); + "</td></tr>" ;
                     });
                     }
                     return res.render("Banking/trade_list", {pending: data, html: get_html, select: "list"});
