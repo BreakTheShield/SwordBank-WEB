@@ -22,12 +22,12 @@ router.get('/', checkCookie, function (req, res) {
             let result = decryptRequest(data.data).data;
             console.log("account_list in web result : ",result);
 
-            return res.render("Banking/account_list", {html_data: result, pending: profileData, select: "account_list"});
+            return res.render("Banking/account_list", {html: " " , html_data: result, pending: profileData, select: "account_list"});
         }).catch(function (error) {
 
             var html_data = "<tr>에러</tr>";
 
-            return res.render("Banking/account_list", {html_data: html_data, pending: profileData, select: "account_list"});
+            return res.render("Banking/account_list", {html: " ", html_data: html_data, pending: profileData, select: "account_list"});
         });
     });
 });
@@ -56,7 +56,7 @@ router.post('/create', checkCookie, function (req, res) {
                  { balance: error, account_number: error, bank_code: error }
             ];
 
-            return res.render("Banking/account_list", {html_data: html_data, pending: profileData, select: "account_list"});
+            return res.render("Banking/account_list", {html : " " ,html_data: html_data, pending: profileData, select: "account_list"});
         });
     });
 });
