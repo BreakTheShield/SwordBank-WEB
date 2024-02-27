@@ -112,6 +112,7 @@ router.post("/get_debt", checkCookie, function (req, res, next) {
     let loan_amount = req.body.loan_amount;
     let account_number = req.body.account_number;
     let loan_time = seoultime;
+    console.log("SEOULTTIME@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",loan_time);
 
     axios({
         method: "post",
