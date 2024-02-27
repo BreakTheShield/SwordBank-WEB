@@ -1,7 +1,7 @@
 <!-- 임시 README  -->
 
 <div align="center">
-    <h1>쉴더수키 Webserver</h1>
+    <h1>쉴드뱅크(Shield Bank) Webserver</h1>
 </div>
 
 
@@ -62,7 +62,7 @@
 
 ## 개발 목적
 
-[쉴더수키]는 [Damn Vulnerable Bank](https://github.com/rewanthtammana/Damn-Vulnerable-Bank)의 API서버를 사용할 수 있도록 의도적으로 취약하게 만들어진 웹서버 입니다.
+[쉴드뱅크]는 [Damn Vulnerable Bank](https://github.com/rewanthtammana/Damn-Vulnerable-Bank)의 API서버를 사용할 수 있도록 의도적으로 취약하게 만들어진 웹서버 입니다.
 웹서버, Nodejs서버, 클라우드의 취약점을 찾아내고, 그 취약점을 이용해 공격하는 방법을 배울 수 있습니다. 
 
 ## 취약점 목록
@@ -89,17 +89,11 @@
 
 ## Contributors
 
-### 쉴더수키 팀
-- ♥이선아♥
-- 박찬
-- 황호선
-- 조백한
-- 이유진
-- 박수빈
-- 김유진
-- 정희수
-- 김의겸
-- 문동준
-- 윤석환
+### BTS 팀
+- ※류승호
+- 김영민
+- 박병준
+- 이종연
+- 정승환
 
 
