@@ -47,8 +47,9 @@ router.post('/create', checkCookie, function (req, res) {
 
             let result = decryptRequest(data.data).data;
             console.log("accout new create result : ",result);
-
-            return res.render("Banking/account_list", {html_data: result, pending: profileData, select: "account_list"});
+            var html_alert= `
+                <script>alert("신규계좌가 생성되었습니다.") </script>`
+            return res.render("Banking/account_list", {html : html_alert, html_data: result, pending: profileData, select: "account_list"});
         }).catch(function (error) {
 
             var html_data = [

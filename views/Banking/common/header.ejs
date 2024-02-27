@@ -74,14 +74,14 @@
             </div>
 
             <!-- Nav Item - Charts -->
-            <% if(select === "admin"){ %>
+            <% if(select === "membership"){ %>
             <li class="nav-item active">
                 <% }else{ %>
             <li class="nav-item" onclick="active">
                 <% } %>
-                <a class="nav-link" href="/bank/admin">
+                <a class="nav-link" href="/bank/membership">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>거래승인</span></a>
+                    <span>멤버쉽 권한 변경</span></a>
             </li>
         <% } %>
         <!-- 송금기능 구분선 -->
@@ -173,16 +173,18 @@
                 <span>코인샵</span></a>
         </li> -->
 
-        <% if(select === "membership"){ %>
-        <li class="nav-item active">
-            <% }else{ %>
-        <li class="nav-item" onclick="active">
-            <% } %>
-            <a class="nav-link" href="/bank/membership">
-                <i class="fas fa-fw fa-money-check"></i>
-
-                <span>멤버십</span></a>
-        </li>
+        <% if(!(pending.data.is_admin)){ %>
+            <!-- Nav Item - Charts -->
+            <% if(select === "membership"){ %>
+            <li class="nav-item active">
+                <% }else{ %>
+            <li class="nav-item" onclick="active">
+                <% } %>
+                <a class="nav-link" href="/bank/membership">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>멤버쉽</span></a>
+            </li>
+        <% } %>
 
         <% if(select === "mydata"){ %>
             <li class="nav-item active">
@@ -264,7 +266,7 @@
 
                     <!-- Nav Item - Alerts -->
                     <li class="nav-item dropdown no-arrow mx-1">
-                        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="/notice/viewBoard" id="alertsDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-bell fa-fw"></i>
                             <!-- Counter - Alerts -->
@@ -290,7 +292,7 @@
 
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="/bank/list" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 small"><%= pending.data.username %></span>
                             <img class="img-profile rounded-circle"
@@ -317,8 +319,8 @@
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">대쉬보드</h1>
+                <div class="d-sm-flex align-items-center justify-content-between mb-2">
+                    <h3 class="h5 mb-0 font-weight-bold text-gray-800">마이페이지</h3>
                     <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                             class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
                 </div>
@@ -352,10 +354,10 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                            자산
+                                            대출 속성
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                            ₩ <%= pending.data.balance %></div>
+                                             <%= pending.data.is_loan %></div>
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-won-sign fa-2x text-gray-300"></i>

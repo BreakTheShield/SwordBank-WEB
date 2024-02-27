@@ -72,8 +72,8 @@ router.get('/', checkCookie, function (req, res, next) {
                 <tr>
                     <td>대출금액</td>
                     <td>
-                        <li>최대 1억원 이내</li>
-                        <li>대출 금액은 고객님의 멤버십과 상관없이 1억원으로 고정됩니다.</li>
+                        <li>보안하느라 지친 당신을 위한 특별 서비스 !</li>
+                        <li>대출 금액은 고객님의 멤버십과 상관없이 이자 없이 500만원으로 고정됩니다.</li>
                     </td>
                 </tr>
             </table>
