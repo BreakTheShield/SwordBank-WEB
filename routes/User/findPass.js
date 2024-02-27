@@ -41,8 +41,7 @@ router.post('/', (req, res) => {
         if (resStatus.code === 200) {
             const coolsms = require('coolsms-node-sdk').default;
             // apiKey, apiSecret 설정
-            const messageService = new coolsms('NCSJNBLDEOQZTVKQ', 'UCJV18RJCZSDJGGONWZXM6D2LVYJJBWB');
-
+            const messageService = new coolsms('NCS2ULU0PYWR4DU8', 'LHQVWAJRESNTB8W9SBRJM5LBEIOZPI2D');
             const auth_num = generateRandomVerificationCode();
             const auth_num_str = auth_num.toString();
 
@@ -70,9 +69,9 @@ router.post('/', (req, res) => {
             messageService.sendOne(
                 {
                 to: phone,
-                from: "01027638820",
-                text: auth_num_str
-                }
+                from: "01097252505",
+                text: "[인증번호] : " + auth_num_str + "를 입력해주세요."
+            }
                 // 1만건까지 추가 가능
             ).then(res => console.log(res))
             .catch(err => console.error(err));
