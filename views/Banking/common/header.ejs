@@ -116,23 +116,6 @@
                 <span>송금하기</span></a>
         </li>
 
-        <!-- Nav Item - Tables -->
-
-       
-
-        <!-- Nav Item - Tables -->
-
-        
-        <!--
-        <li class="nav-item" onclick="active">
-            <a class="nav-link"
-               href="#">
-                <i class="fas fa-fw fa-phone"></i>
-
-                <span>인증센터</span></a>
-        </li> -->
-
-        <!--이조 계좌목록 추가 s-->
         <% if(select === "account_list"){ %>
             <li class="nav-item active">
                 <% }else{ %>
@@ -144,66 +127,50 @@
                     <i class="fas fa-fw fa-male"></i>
                     <span>계좌 목록</span></a>
             </li>
-        <!--이조 계좌목록 추가 e-->
 
-        
-
-
-    <% if(select === "loan"){ %>
-        <li class="nav-item active">
-            <% }else{ %>
-        <li class="nav-item" onclick="active">
-            <% } %>
-
-            <a class="nav-link" href="/bank/loan">
-
-                <i class="fas fa-fw fa-money-bill-wave"></i>
-                <span>대출</span></a>
-        </li>
-
-        <!--
-        <% if(select === "coinShop"){ %>
-        <li class="nav-item active">
-            <% }else{ %>
-        <li class="nav-item" onclick="active">
-            <% } %>
-            <a class="nav-link" href="#">
-                <i class="fas fa-fw fa-address-card"></i>
-
-                <span>코인샵</span></a>
-        </li> -->
-
-        <% if(!(pending.data.is_admin)){ %>
-            <!-- Nav Item - Charts -->
-            <% if(select === "membership"){ %>
+        <% if(select === "loan"){ %>
             <li class="nav-item active">
                 <% }else{ %>
             <li class="nav-item" onclick="active">
                 <% } %>
-                <a class="nav-link" href="/bank/membership">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>멤버쉽</span></a>
+
+                <a class="nav-link" href="/bank/loan">
+
+                    <i class="fas fa-fw fa-money-bill-wave"></i>
+                    <span>대출</span></a>
             </li>
-        <% } %>
 
-        <% if(select === "mydata"){ %>
-            <li class="nav-item active">
-                <% }else{ %>
-            <li class="nav-item" onclick="active">
-                <% } %>
-                <a class="nav-link" href="/bank/mydata_auth">
-                    <i class="fas fa-fw fa-address-card"></i>
-    
-                    <span>마이데이터</span></a>
-            </li> 
+            <% if(!(pending.data.is_admin)){ %>
+                <!-- Nav Item - Charts -->
+                <% if(select === "membership"){ %>
+                <li class="nav-item active">
+                    <% }else{ %>
+                <li class="nav-item" onclick="active">
+                    <% } %>
+                    <a class="nav-link" href="/bank/membership">
+                        <i class="fas fa-fw fa-chart-area"></i>
+                        <span>멤버쉽</span></a>
+                </li>
+            <% } %>
 
-        <!-- 접기버튼 -->
-        <hr class="sidebar-divider d-none d-md-block">
+            <% if(select === "mydata"){ %>
+                <li class="nav-item active">
+                    <% }else{ %>
+                <li class="nav-item" onclick="active">
+                    <% } %>
+                    <a class="nav-link" href="/bank/mydata_auth">
+                        <i class="fas fa-fw fa-address-card"></i>
+        
+                        <span>마이데이터</span></a>
+                </li> 
 
-        <!-- Sidebar Toggler (Sidebar) -->
-        <div class="text-center d-none d-md-inline">
-            <button class="rounded-circle border-0" id="sidebarToggle"></button>
-        </div>
+            <!-- 접기버튼 -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
 
 
     </ul>
@@ -349,26 +316,6 @@
 
                     <!-- Earnings (Monthly) Card Example -->
                     <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-success shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                            대출
-                                        </div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                             <%= pending.data.is_loan %></div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-won-sign fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Earnings (Monthly) Card Example -->
-                    <div class="col-xl-3 col-md-6 mb-4">
                         <div class="card border-left-info shadow h-100 py-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
@@ -381,6 +328,26 @@
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Earnings (Monthly) Card Example -->
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                            대출
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                             <%= pending.data.is_loan %></div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-won-sign fa-2x text-gray-300"></i>
                                     </div>
                                 </div>
                             </div>

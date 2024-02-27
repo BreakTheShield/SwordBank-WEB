@@ -10,13 +10,12 @@ var userdb = require('../../middlewares/userdb');
 
 
 HTML_PNG = `<img src="../img/membership.png" style="width:100%;">`
-// HTML_PNG = `<img src="http://www.sukybank.com/img/membership.png">`
 
-router.get('/', checkCookie, function (req, res) {
+router.get('/', checkCookie, function (req, res) {          // 멤버십 페이지 불러오기
     const cookie = req.cookies.Token
 
     profile(cookie).then(pending => {
-        axios({
+        axios({          // 멤버십 페이지 불러오기를 위한 api req
             method: "post",
             url: api_url + "/api/beneficiary/ceiling",
             headers: {"authorization": "1 " + cookie}
@@ -25,7 +24,7 @@ router.get('/', checkCookie, function (req, res) {
             const resStatus = decryptRequest(data.data).status;
             const resData = decryptRequest(data.data).data;
 
-            if(Array.isArray(resData))
+            if(Array.isArray(resData))          // 데이터가 배열이면, 관리자 멤버십 관리 페이지 출력
             {
                 html +=
                     "<h2 align='center'>환영합니다, 관리자님!</h2>\n" +
@@ -52,11 +51,11 @@ router.get('/', checkCookie, function (req, res) {
                 </tbody>`
 
                 })
-            } else if (resStatus.code === 200) {
-                if(resData.membership === "ADMIN") {
+            } else if (resStatus.code === 200) {          // 상태가 200이면,
+                if(resData.membership === "ADMIN") {          // 멤버십이 ADMIN이면,
                     html += "<h2>이 사이트에는 멤버십을 관리할 유저가 없습니다!</h2>"
                 }
-                else {
+                else {          // 멤버십이 ADMIN이 아니면,
                     html += `<h2 align='center'>회원님의 멤버십 등급은 ${resData.membership}등급입니다.</h2>`
                     html += HTML_PNG
                 }
@@ -68,7 +67,7 @@ router.get('/', checkCookie, function (req, res) {
     })
 });
 
-router.get('/silver', [checkCookie, IpCheck], function (req, res, next) {
+router.get('/silver', [checkCookie, IpCheck], function (req, res, next) {          // silver 일 때 화면 불러오기
     const id = req.query.id;
     userdb.query(`UPDATE users
                   SET membership = 'SILVER'
@@ -79,7 +78,7 @@ router.get('/silver', [checkCookie, IpCheck], function (req, res, next) {
     return res.redirect("/bank/membership")
 });
 
-router.get('/gold', [checkCookie, IpCheck], function (req, res, next) {
+router.get('/gold', [checkCookie, IpCheck], function (req, res, next) {          // gold 일 때 화면 불러오기
     const id = req.query.id;
     userdb.query(`UPDATE users
                   SET membership = 'GOLD'
@@ -90,7 +89,7 @@ router.get('/gold', [checkCookie, IpCheck], function (req, res, next) {
     return res.redirect("/bank/membership")
 });
 
-router.get('/platinum', [checkCookie, IpCheck], function (req, res, next) {
+router.get('/platinum', [checkCookie, IpCheck], function (req, res, next) {          // platinum 일 때 화면 불러오기
     const id = req.query.id;
     userdb.query(`UPDATE users
                   SET membership = 'PLATINUM'
