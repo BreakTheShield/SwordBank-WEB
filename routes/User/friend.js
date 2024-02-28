@@ -5,14 +5,17 @@ var {encryptResponse, decryptRequest} = require("../../middlewares/crypt");
 const profile = require('../../middlewares/profile');
 const checkCookie = require("../../middlewares/checkCookie")
 
-router.get('/', checkCookie, function (req, res, next) {
+
+// 사용하지 않는 코드
+
+router.get('/', checkCookie, function (req, res) {
     const cookie = req.cookies.Token;
 
     profile(cookie).then(pending => {
 
-        axios({
+        axios({           
             method: "post",
-            url: api_url + "/api/beneficiary/view", // URL 수정 해야 됨
+            url: api_url + "/api/beneficiary/view", 
             headers: {"authorization": "1 " + cookie}
         }).then((data) => {
             let result = decryptRequest(data.data).data;

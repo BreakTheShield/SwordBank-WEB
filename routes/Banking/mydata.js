@@ -5,7 +5,7 @@ var {encryptResponse, decryptRequest} = require("../../middlewares/crypt");
 const profile = require('../../middlewares/profile');
 const checkCookie = require("../../middlewares/checkCookie")
 
-router.get('/', checkCookie, function (req, res) {
+router.get('/', checkCookie, function (req, res) {          // mydata 불러오기 요청하는 페이지
     const cookie = req.cookies.Token;
     profile(cookie).then(profileData => {
         console.log("mydata에서의 profileData : ",profileData);
@@ -14,24 +14,26 @@ router.get('/', checkCookie, function (req, res) {
     });
 });
 
-router.post('/', checkCookie, function (req, res) {
+router.post('/', checkCookie, function (req, res) {          // mydata 페이지에서 mydata 불러오기
     const cookie = req.cookies.Token;
     profile(cookie).then(profileData => {
-        axios({
+        axios({          // B은행에 있는 account를 불러오기 위한 api로 request
             method: "post",
             url: api_url + "/api/mydata/req_account",
             headers: {"authorization": "1 " + cookie},
         }).then((data) => {
-            var account_list = data.data.data;
+           
+            var account_list = decryptRequest(data.data).data;
+            console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@",account_list);
             var result="";
-            
-            if(account_list.length > 0) {
+
+            if(account_list.length > 0) {          // B은행에서 받아온 data(user 계좌정보)가 존재하는 경우
                 result = "<tr>\n";
                 account_list.forEach(account => {
-                    if(account.bank_code == 333){
+                    if(account.bank_code == 333){          // bank_code = 333인 경우 SWORDBANK
                         var bank_code = "SWORDBANK";
                     }
-                    else{
+                    else{          // bank_code = 555인 경우 SHIELDBANK
                         var bank_code = "SHIELDBANK";
                     }
                     if(account.bank_code == 333){
@@ -52,13 +54,14 @@ router.post('/', checkCookie, function (req, res) {
                 });
                 
             }
-            else {
+            else {          // B은행에서 받아온 data(user 계좌정보)가 존재하지 않는 경우
                 result += "<tr>\n"
                 result += "<td colspan='3'>계좌가 없습니다.</td>\n"
                 result += "</tr>\n"
             }
 
             return res.render("Banking/mydata", {html_data: result, pending: profileData, select: "mydata"});
+
         }).catch(function (error) {
             return error;
         });

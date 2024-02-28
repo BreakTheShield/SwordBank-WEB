@@ -11,30 +11,30 @@ var request = require("request");
 const fs = require("fs");
 
 router.get("/", function (req, res, next) {
-    if (req.cookies.Token) {
+    if (req.cookies.Token) {          // 유저가 로그인을 한 경우
         var cookie = decryptEnc(req.cookies.Token);
         profile(cookie).then((data) => {
             var cookieData = data.data;
             tokenauth.admauthresult(req, function (aResult) {
-                if (aResult == true) {
+                if (aResult == true) {          // 현재 로그인 한 유저가 admin인 경우
                     res.render("temp/notice/writeBoard", {select: "notices", u_data: cookieData.username});
-                } else {
+                } else {          // 현재 로그인 한 유저가 admin이 아닌 경우
                     res.render("temp/notice/alert");
                 }
             });
         });
-    } else {
+    } else {          // 유저가 로그인을 하지 않은 경우
         res.render("temp/notice/alert");
     }
 });
 
 const upload = multer({
     storage: multer.diskStorage({
-        destination: function (req, file, cb) {
+        destination: function (req, file, cb) {          // 파일 저장 위치를 ../file 디렉토리에 저장
             console.log(req.body.fid);
             cb(null, "../file");
         },
-        filename: function (req, file, cb) {
+        filename: function (req, file, cb) {          // 파일 이름을 upload한 이름 그대로 사용
             cb(null, file.originalname);
         },
     }),

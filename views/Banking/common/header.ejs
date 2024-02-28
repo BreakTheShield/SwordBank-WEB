@@ -74,14 +74,14 @@
             </div>
 
             <!-- Nav Item - Charts -->
-            <% if(select === "membership"){ %>
+            <% if(select === "admin"){ %>
             <li class="nav-item active">
                 <% }else{ %>
             <li class="nav-item" onclick="active">
                 <% } %>
-                <a class="nav-link" href="/bank/membership">
+                <a class="nav-link" href="/bank/admin">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>멤버쉽 권한 변경</span></a>
+                    <span>거래승인</span></a>
             </li>
         <% } %>
         <!-- 송금기능 구분선 -->
@@ -173,28 +173,35 @@
                 <span>코인샵</span></a>
         </li> -->
 
-        <% if(!(pending.data.is_admin)){ %>
-            <!-- Nav Item - Charts -->
-            <% if(select === "membership"){ %>
-            <li class="nav-item active">
-                <% }else{ %>
-            <li class="nav-item" onclick="active">
-                <% } %>
-                <a class="nav-link" href="/bank/membership">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>멤버쉽</span></a>
-            </li>
-        <% } %>
+        <% if(select === "membership"){ %>
+        <li class="nav-item active">
+            <% }else{ %>
+        <li class="nav-item" onclick="active">
+            <% } %>
+            <a class="nav-link" href="/bank/membership">
+                <i class="fas fa-fw fa-money-check"></i>
 
-        <% if(select === "mydata"){ %>
+                <span>멤버십</span></a>
+        </li>
+
+        <% if(select == "mydata"){ %>
             <li class="nav-item active">
                 <% }else{ %>
             <li class="nav-item" onclick="active">
                 <% } %>
-                <a class="nav-link" href="/bank/mydata_auth">
-                    <i class="fas fa-fw fa-address-card"></i>
-    
-                    <span>마이데이터</span></a>
+
+                <% if (pending.data.is_mydata == 1) { %>
+                    <a class="nav-link" href="/bank/mydata">
+                        <i class="fas fa-fw fa-address-card"></i>
+                        <span>마이데이터</span>
+                    </a>
+                <% } else if (pending.data.is_mydata == 0) { %>
+                    <a class="nav-link" href="/bank/mydata_auth">
+                        <i class="fas fa-fw fa-address-card"></i>
+                        <span>마이데이터</span>
+                    </a>
+                <% } %>
+                
             </li> 
 
         <!-- 접기버튼 -->
@@ -266,7 +273,7 @@
 
                     <!-- Nav Item - Alerts -->
                     <li class="nav-item dropdown no-arrow mx-1">
-                        <a class="nav-link dropdown-toggle" href="/notice/viewBoard" id="alertsDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-bell fa-fw"></i>
                             <!-- Counter - Alerts -->
@@ -289,10 +296,9 @@
                     </li>
 
                     <div class="topbar-divider d-none d-sm-block"></div>
-
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link dropdown-toggle" href="/bank/list" id="userDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 small"><%= pending.data.username %></span>
                             <img class="img-profile rounded-circle"
@@ -319,8 +325,8 @@
             <div class="container-fluid">
 
                 <!-- Page Heading -->
-                <div class="d-sm-flex align-items-center justify-content-between mb-2">
-                    <h3 class="h5 mb-0 font-weight-bold text-gray-800">마이페이지</h3>
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">대쉬보드</h1>
                     <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                             class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> -->
                 </div>
@@ -335,7 +341,7 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                            계좌번호
+                                            계좌번호           <!--대표계좌번호(user에 있는 account)--> 
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"><%= pending.data.account_number %></div>
                                     </div>
@@ -354,10 +360,10 @@
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                            대출
+                                            자산
                                         </div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                             <%= pending.data.is_loan %></div>
+                                            ₩ <%= pending.data.balance %></div>  <!-- 자산을 account_list에서 뽑아와서 더해주는 것.-->
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-won-sign fa-2x text-gray-300"></i>

@@ -8,21 +8,18 @@ const sha256 = require("js-sha256");
 
 var router = express.Router();
 
-//인증번호 랜덤 생성 함수
-function generateRandomVerificationCode() {
+
+function generateRandomVerificationCode() {          //인증번호 랜덤 생성
     const min = 1000;
     const max = 9999;
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-/* GET users listing. */
-router.get('/', function (req, res, next) {
+router.get('/', function (req, res) {
     var username = req.query.username;
     res.render("temp/findPass", {select: "login", username: username});
 });
 
-
-//router.post('/', async function (req, res, next) {
 router.post('/', (req, res) => {
     const username = req.body.username;
     const phone = req.body.phone;
@@ -30,7 +27,7 @@ router.post('/', (req, res) => {
     let resStatus = ""
     let resMessage = ""
 
-    axios({
+    axios({          //비밀번호 찾기 위한 api로 req
         method: "post",
         url: api_url + "/api/User/findPass",
         data: encryptResponse(baseData)
@@ -38,25 +35,23 @@ router.post('/', (req, res) => {
         resStatus = decryptRequest(data.data).status
         resMessage = decryptRequest(data.data).data.message
 
-        if (resStatus.code === 200) {
+        if (resStatus.code === 200) {          // 인증번호가 정상적으로 보내지는 경우
             const coolsms = require('coolsms-node-sdk').default;
-            // apiKey, apiSecret 설정
             const messageService = new coolsms('NCS2ULU0PYWR4DU8', 'LHQVWAJRESNTB8W9SBRJM5LBEIOZPI2D');
             const auth_num = generateRandomVerificationCode();
             const auth_num_str = auth_num.toString();
 
-            //if로 이미 authnum있으면~
             dbConfig.query(`SELECT * FROM smsauths WHERE username = '${username}'`, function(error, results, fields) {
-                if (error) {
+                if (error) {          // smsauths테이블에 username이 존재하지 않는 경우
                     throw error;
                 }
-                else if(results.length > 0) {
+                else if(results.length > 0) {          // smsauths테이블에 username이 존재하는 경우 update
                     dbConfig.query(`UPDATE smsauths SET authnum = '${auth_num_str}' WHERE username = '${username}'`, function(error, result) {
-                        if (error) {
+                        if (error) {          // smsauths테이블에 update가 되지 않은 경우
                             throw error;
                         }
                     });
-                }else {
+                }else {          // smsauths테이블에 username이 존재하지 않는 경우 create
                     dbConfig.query(`INSERT INTO smsauths (username, authnum) VALUES ('${username}', '${auth_num_str}')`, function(error, result) {
                         if (error) {
                             throw error;
@@ -65,18 +60,15 @@ router.post('/', (req, res) => {
                 }
             });
 
-            //2건 이상의 메시지를 발송할 때는 sendMany, 단일 건 메시지 발송은 sendOne을 이용해야 합니다. 
-            messageService.sendOne(
+            messageService.sendOne(          // 인증번호 전송
                 {
                 to: phone,
                 from: "01097252505",
                 text: "[인증번호] : " + auth_num_str + "를 입력해주세요."
             }
-                // 1만건까지 추가 가능
             ).then(res => console.log(res))
             .catch(err => console.error(err));
-            return res.send(`<script>alert('인증번호가 발송되었습니다.');location.href = \"/user/smsAuth?username=${username}\";</script>`);
-            //res.render(`/user/smsAuth?username=${username}`, {select: "smsAuth", message: resMessage});
+            return res.send(`<script>alert('인증번호가 발송되었습니다.');location.href = \"/user/smsAuth?username=${username}\";</script>`);          // 문자 인증페이지로 redirect
         } else {
             res.render("temp/findPass", {select: "findPass", message: resMessage})
         }

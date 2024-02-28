@@ -5,10 +5,11 @@ var tokenauth = require('./tokenauth');
 const profile = require('../../middlewares/profile');
 const fs = require('fs');
 
-router.get('/', function (req, res, next) {
-    if (req.cookies.Token) {
+router.get('/', function (req, res, next) {          
+    if (req.cookies.Token) {          // user가 로그인 한 경우
         tokenauth.admauthresult(req, function (aResult) {
-            if (aResult == true) {
+            if (aResult == true) {          // user가 admin인 경우
+                          // 업로드된 파일에 대한 정보를 select 진행
                 db.query(`SELECT filepath
                           FROM notices
                           WHERE id = ${req.query.id}`, function (error, results) {
@@ -16,6 +17,7 @@ router.get('/', function (req, res, next) {
                         throw error;
                     }
                     var fp = results[0].filepath
+                              // 업로드 된 파일의 filepath를 받아서 delete 진행
                     db.query(`DELETE
                               FROM notices
                               WHERE id = ${req.query.id}`, function (error, results) {
@@ -27,11 +29,11 @@ router.get('/', function (req, res, next) {
                         res.redirect('viewBoard');
                     });
                 });
-            } else {
+            } else {          // user가 admin이 아닌 경우
                 res.render('temp/notice/alert');
             }
         });
-    } else {
+    } else {          // user가 로그인 하지 않은 경우
         res.render('temp/notice/alert');
     }
 });

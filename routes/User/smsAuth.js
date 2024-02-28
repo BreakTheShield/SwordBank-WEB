@@ -7,12 +7,12 @@ const sha256 = require("js-sha256")
 
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
+router.get('/', function (req, res, next) {          // 인증번호 입력 페이지 렌더링
     var username = req.query.username;
     res.render("temp/smsAuth", {select: "smsAuth", username: username});
 });
 
-router.post('/', (req, res) => {
+router.post('/', (req, res) => {          
     const username = req.body.username;
     const authnum = req.body.authnum;
     const new_password = req.body.next_new_password;
@@ -23,7 +23,7 @@ router.post('/', (req, res) => {
     let resStatus = ""
     let resMessage = ""
 
-    axios({
+    axios({          // smsAuth를 확인하기 위한 api로 req
         method: "post",
         url: api_url + "/api/User/smsAuth",
         data: encryptResponse(baseData)

@@ -18,10 +18,8 @@ router.get("/", checkCookie, async (req, res) => {
             data:{username:data.data.username}
         }).then((data2) => {
             var d = decryptRequest((data2.data));
-            //var c = decryptRequest(data2);
-            //console.log('송금하기 확인2222222222222222', profile);
+           
             var results = d.data.accountdata;
-            //console.log('송금하기 확인1@@@@@@@@@@@@@@@@', results);
             var html_data = `
                 <input type="text" class="form-control form-control-user" autocomplete="off" id="drop_from" name="from_account" placeholder="보내는 계좌번호" list="dropdown_from">
                 <datalist id="dropdown_from">`;
@@ -57,7 +55,6 @@ router.post("/post", checkCookie, function (req, res, next) {
         result = decryptRequest(data.data);
         statusCode = result.data.status;
         message = result.data.message;
-
         if(statusCode != 200) {
             res.send(`<script>
             alert("${message}");
