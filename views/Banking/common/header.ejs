@@ -74,12 +74,12 @@
             </div>
 
             <!-- Nav Item - Charts -->
-            <% if(select === "admin"){ %>
+            <% if(select === "membership"){ %>
             <li class="nav-item active">
                 <% }else{ %>
             <li class="nav-item" onclick="active">
                 <% } %>
-                <a class="nav-link" href="/bank/admin">
+                <a class="nav-link" href="/bank/membership">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>멤버십 권한 변경</span></a>
             </li>
@@ -269,7 +269,7 @@
 
                     <!-- Nav Item - Alerts -->
                     <li class="nav-item dropdown no-arrow mx-1">
-                        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="/notice/viewBoard" id="alertsDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fas fa-bell fa-fw"></i>
                             <!-- Counter - Alerts -->
@@ -294,7 +294,7 @@
                     <div class="topbar-divider d-none d-sm-block"></div>
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="/bank/list" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 small"><%= pending.data.username %></span>
                             <img class="img-profile rounded-circle"
