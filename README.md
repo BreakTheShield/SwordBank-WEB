@@ -1,7 +1,7 @@
 <!-- 임시 README  -->
 
 <div align="center">
-    <h1>쉴드뱅크(Shield Bank) Webserver</h1>
+    <h1>소드뱅크(Sword Bank) Webserver</h1>
 </div>
 
 

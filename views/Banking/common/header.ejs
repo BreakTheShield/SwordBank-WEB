@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SHIELDBANK</title>
+    <title>SWORDBANK</title>
 
     <!-- Custom fonts for this template-->
     <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -49,10 +49,10 @@
 
         <!-- 맨왼쪽 맨위 -->
         <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
-            <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-shield-alt"></i>
+            <div class="sidebar-brand-icon">
+                <img src ="/img/sword-icon-white.svg" width="40" height="40">
             </div>
-            <div class="sidebar-brand-text mx-3">SHIELDBANK</div>
+            <div class="sidebar-brand-text mx-3">SWORDBANK</div>
         </a>
 
         <!-- Divider -->
@@ -79,7 +79,7 @@
                 <% }else{ %>
             <li class="nav-item" onclick="active">
                 <% } %>
-                <a class="nav-link" href="/bank/admin">
+                <a class="nav-link" href="/bank/membership">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>멤버십 권한 변경</span></a>
             </li>
@@ -188,7 +188,7 @@
                 
             </li> 
 
-            <% if(select === "mydata"){ %>
+            <!-- <% if(select === "mydata"){ %>
                 <li class="nav-item active">
                     <% }else{ %>
                 <li class="nav-item" onclick="active">
@@ -197,7 +197,7 @@
                         <i class="fas fa-fw fa-address-card"></i>
         
                         <span>마이데이터</span></a>
-                </li> 
+                </li>  -->
 
             <!-- 접기버튼 -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -268,24 +268,20 @@
 
                     <!-- Nav Item - Alerts -->
                     <li class="nav-item dropdown no-arrow mx-1">
-                        <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="/notice/viewBoard" id="alertsDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-bell fa-fw"></i>
                             <!-- Counter - Alerts -->
-                            <span class="badge badge-danger badge-counter">3+</span>
-                        </a>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">Notice</span>                        </a>
                         <!-- Dropdown - Alerts -->
                         
                     </li>
 
                     <!-- Nav Item - Messages -->
                     <li class="nav-item dropdown no-arrow mx-1">
-                        <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="/qna/viewBoard" id="messagesDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-envelope fa-fw"></i>
                             <!-- Counter - Messages -->
-                            <span class="badge badge-danger badge-counter">7</span>
-                        </a>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">QnA</span>                        </a>
                         <!-- Dropdown - Messages -->
                         
                     </li>
@@ -293,7 +289,7 @@
                     <div class="topbar-divider d-none d-sm-block"></div>
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                        <a class="nav-link dropdown-toggle" href="/bank/list" id="userDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 small"><%= pending.data.username %></span>
                             <img class="img-profile rounded-circle"

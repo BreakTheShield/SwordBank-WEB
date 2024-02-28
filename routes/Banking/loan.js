@@ -46,8 +46,8 @@ router.get('/', checkCookie, function (req, res, next) {          // 대출 페�
                         대출 잔액 : ${laFormatted} 원
                     </div>
                     <input type="text" class="form-control form-control-user mb-3" id="repayment_amount" name="repayment_amount" placeholder="상환 금액" style="width : 100%;">
-                    <input type="submit" class="btn btn-user btn-block" name="repayment" value="대출 상환" formaction="/bank/loan/repayment" style="background-color:#b937a4 !important; color:white !important;">
-                    <input type="submit" class="btn btn-user btn-block" name="cancel" value="대출 취소" formaction="/bank/loan/cancel" style="background-color:#b937a4 !important; color:white !important;">
+                    <input type="submit" class="btn btn-user btn-block" name="repayment" value="대출 상환" formaction="/bank/loan/repayment" style="background-color:#37a437 !important; color:white !important;">
+                    <input type="submit" class="btn btn-user btn-block" name="cancel" value="대출 취소" formaction="/bank/loan/cancel" style="background-color:#37a437 !important; color:white !important;">
                 </form>  
 
                 `;
@@ -93,7 +93,7 @@ router.get('/', checkCookie, function (req, res, next) {          // 대출 페�
                 <input type="hidden" id="loan_amount" name="loan_amount" value="50000000"><br>
                 <input type="hidden" name="username" id="username" value="${pending.data.username}"/> 
             </form>
-            <a onclick="document.getElementById('get_debt').submit()" class="btn btn-user btn-block" id="submitbutton" style="background-color:#b937a4 !important; color:white !important;">
+            <a onclick="document.getElementById('get_debt').submit()" class="btn btn-user btn-block" id="submitbutton" style="background-color:#37a437 !important; color:white !important;">
             대출
             </a>
             `;
