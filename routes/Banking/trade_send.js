@@ -6,19 +6,17 @@ const {decryptRequest, encryptResponse} = require("../../middlewares/crypt")
 const checkCookie = require("../../middlewares/checkCookie")
 var {seoultime} = require('../../middlewares/seoultime');
 
-router.get("/", checkCookie, async (req, res) => {
+router.get("/", checkCookie, async (req, res) => {          // 송금 기본 페이지 불러오기
     const cookie = req.cookies.Token;
     
     profile(cookie).then((data) => {
-        //console.log("1111111111111",data.data.username);
-        axios({
+        axios({          // 송금 페이지를 위한 api로 req 
             method: "post",
             url: api_url + "/api/beneficiary/account",
             headers: {"authorization": "1 " + cookie},
             data:{username:data.data.username}
         }).then((data2) => {
             var d = decryptRequest((data2.data));
-           
             var results = d.data.accountdata;
             var html_data = `
                 <input type="text" class="form-control form-control-user" autocomplete="off" id="drop_from" name="from_account" placeholder="보내는 계좌번호" list="dropdown_from">
@@ -35,7 +33,7 @@ router.get("/", checkCookie, async (req, res) => {
     });
 });
 
-router.post("/post", checkCookie, function (req, res, next) {
+router.post("/post", checkCookie, function (req, res, next) {          // 송금 요청
     const cookie = req.cookies.Token;
     let json_data = {};
     let result = {};
@@ -46,7 +44,7 @@ router.post("/post", checkCookie, function (req, res, next) {
     json_data['sendtime'] = seoultime;
 
     const en_data = encryptResponse(JSON.stringify(json_data));// 객체를 문자열로 반환 후 암호화
-    axios({
+    axios({          // 송금을 위한 api로 req
         method: "post",
         url: api_url + "/api/balance/transfer",
         headers: {"authorization": "1 " + cookie},
@@ -55,12 +53,13 @@ router.post("/post", checkCookie, function (req, res, next) {
         result = decryptRequest(data.data);
         statusCode = result.data.status;
         message = result.data.message;
-        if(statusCode != 200) {
+
+        if(statusCode != 200) {          // 성공하면, 성공 메시지
             res.send(`<script>
             alert("${message}");
             location.href=\"/bank/send\";
             </script>`);
-        } else {
+        } else {          // 실패하면, 실패 메시지
             res.send(`<script>
             alert("${message}");
             location.href=\"/bank/list\";
