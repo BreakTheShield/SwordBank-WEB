@@ -21,7 +21,9 @@ router.get('/', checkCookie, function (req, res, next) {          // 대출 페�
             let statusCode = result_data.status;
             let ac = result_data.data.account_number;
             let la = result_data.data.loan_amount;
+            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", laFormatted);
             if (statusCode.code == 200) {          // users 테이블에 사용자가 is_loan = true면,
+                var laFormatted = la.toLocaleString();
                 var html_data = `
                 <div class="text-center">
                     <h4 class="h4 text-gray-900 mb-4">대출 현황 및 상환</h4>
@@ -41,7 +43,7 @@ router.get('/', checkCookie, function (req, res, next) {          // 대출 페�
                     })
                     html_data += `</select>
                     <div class="form-control form-control-user mb-3" role="alert">
-                        대출 잔액 : ${la} 원
+                        대출 잔액 : ${laFormatted} 원
                     </div>
                     <input type="text" class="form-control form-control-user mb-3" id="repayment_amount" name="repayment_amount" placeholder="상환 금액" style="width : 100%;">
                     <input type="submit" class="btn btn-user btn-block" name="repayment" value="대출 상환" formaction="/bank/loan/repayment" style="background-color:#b937a4 !important; color:white !important;">
@@ -73,13 +75,13 @@ router.get('/', checkCookie, function (req, res, next) {          // 대출 페�
                     <td>대출금액</td>
                     <td>
                         <li>보안하느라 지친 당신을 위한 특별 서비스 !</li>
-                        <li>대출 금액은 고객님의 멤버십과 상관없이 이자 없이 500만원으로 고정됩니다.</li>
+                        <li>대출 금액은 고객님의 멤버십과 상관없이 이자 없이 5000만 원으로 고정됩니다.</li>
                     </td>
                 </tr>
             </table>
 
             <form id="get_debt" action="/bank/loan/get_debt" method="POST" name="get_debt">
-            <label> 당신의 등급은 ${pending.data.membership}이며, 대출 가능 금액은 5,000,000원 입니다. <br>
+            <label> 당신의 등급은 ${pending.data.membership}이며, 대출 가능 금액은 50,000,000원 입니다. <br>
             <label for="acc">대출 받으실 계좌를 선택해주세요</label><br>
             <select class="form-control form-control-user mb-3" aria-label="Large select example" name="account_number" style="width: 100%;">
             <option selected>계좌를 선택해 주세요.</option>
